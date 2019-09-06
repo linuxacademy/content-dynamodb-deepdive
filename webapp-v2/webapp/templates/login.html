@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center">
+
+    <div class="col-sm-5">
+
+      <form method="POST">
+        {{ form.hidden_tag() }}
+        
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title text-center mb-4 mt-1">Log In</h4>
+
+            <div class="form-group">
+              {{ form.email.label(class="form-control-label") }}
+              {% if form.email.errors %}
+              {{ form.email(class="form-control form-control-lg is-invalid") }}
+              <div class="invalid-feedback">
+                {% for error in form.email.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+              </div>
+              {% else %}
+              {{ form.email(class="form-control form-control-lg") }}
+              {% endif %}
+            </div>
+            <div class="form-group">
+              {{ form.password.label(class="form-control-label") }}
+              {% if form.password.errors %}
+              {{ form.password(class="form-control form-control-lg is-invalid") }}
+              <div class="invalid-feedback">
+                {% for error in form.password.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+              </div>
+              {% else %}
+              {{ form.password(class="form-control form-control-lg") }}
+              {% endif %}
+            </div>
+            <div class="form-check mb-2">
+              {{ form.remember(class="form-check-input") }}
+              {{ form.remember.label(class="form-check-label") }}
+            </div>
+            
+            <div class="form-group">
+              {{ form.submit(class="btn btn-primary btn-block") }}
+            </div>
+            
+            <small class="text-muted">
+              <a href="#">Forgot password?</a><br>
+            </small>
+            
+            <small class="text-muted">
+              Need an account? <a href="{{ url_for('register') }}">Register now</a>
+            </small>
+            
+          </div>
+        </div>
+        
+      </form>
+      
+    </div>
+      
+  </div>
+</div>  
+    
+    {% endblock content %}
+    
