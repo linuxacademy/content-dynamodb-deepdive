@@ -1,15 +1,15 @@
+import os
+
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
-from flask_sqlalchemy import SQLAlchemy
+
 
 app = Flask(__name__)
 
 app.config["SECRET_KEY"] = "056e0820604e3c45b8908388be1fcaf8"
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://pinehead:pinehead@localhost/pinehead"
-app.config["SQLALCHEMY_ECHO"] = True
-
-db = SQLAlchemy(app)
+app.s3_prefix = os.environ["S3_PREFIX"]
+print(f" * Album art using S3 bucket prefix {app.s3_prefix}")
 
 bcrypt = Bcrypt(app)
 
