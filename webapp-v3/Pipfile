@@ -1,0 +1,33 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+flake8 = "*"
+autopep8 = "*"
+pylint = "*"
+black = "*"
+
+[packages]
+flask-paginate = "*"
+flask-mysqldb = "*"
+flask-login = "*"
+flask-wtf = "*"
+flask-bcrypt = "*"
+flask-cache = "*"
+flask-caching = "*"
+flask-sqlalchemy = "*"
+watchtower = "*"
+pyjwt = "*"
+python-jose = "*"
+requests = "*"
+pyopenssl = "*"
+flask = "*"
+python-dotenv = "*"
+
+[requires]
+python_version = "3.7"
+
+[pipenv]
+allow_prereleases = true

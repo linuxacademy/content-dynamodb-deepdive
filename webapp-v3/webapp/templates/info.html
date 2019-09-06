@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container">
+  
+  <div class="row">
+    <div class="col">
+      <h1>Server Info</h1>
+      <b>instance_id</b> : {{instance_id}} <br/>
+      <b>availability_zone</b> : {{availability_zone}} <br/>
+      <b>sys.version</b> : {{sys_version}} <br/>
+    </div>
+  </div>
+
+</div>
+
+{% endblock content %}
