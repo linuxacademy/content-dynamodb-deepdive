@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h3>Albums by {{ artist.name }}</h3>
+      <ul class="list-group">
+        {% for album in albums %}
+          <li class="list-group-item">
+            <span class="badge badge-secondary">{{ album.year }}</span>
+            <span class="ml-2"><a href="/album/{{ album.id }}">{{ album.title }}</a></span>
+            <span class="ml-2"><small class="text-muted">{{ album.format }}</small></span>
+            </li>
+        {% endfor %}
+      </ul>
+    </div>
+</div>
+
+{% endblock content %}

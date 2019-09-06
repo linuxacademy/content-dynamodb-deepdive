@@ -1,0 +1,20 @@
+-i https://pypi.org/simple
+bcrypt==3.1.7
+cffi==1.12.3
+click==7.0
+flask-bcrypt==0.7.1
+flask-cache==0.13.1
+flask-caching==1.7.2
+flask-login==0.4.1
+flask-mysqldb==0.2.0
+flask-paginate==0.5.3
+flask-wtf==0.14.2
+flask==1.1.1
+itsdangerous==1.1.0
+jinja2==2.10.1
+markupsafe==1.1.1
+mysqlclient==1.4.2.post1
+pycparser==2.19
+six==1.12.0
+werkzeug==0.15.5
+wtforms==2.2.1
