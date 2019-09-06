@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="album py-5 bg-light">
+  <div class="container">
+    <h1>New Arrivals</h1>
+
+    <div class="row">
+      <nav>
+        <ul class="pagination">
+          <li class="page-item"><a class="page-link" href="{{ url_for('home', last_evaluated_key=prev_evaluated_key) }}">Previous</a></li>
+          <li class="page-item"><a class="page-link" href="{{ url_for('home', last_evaluated_key=last_evaluated_key, prev_evaluated_key=prev_evaluated_key) }}">Next</a></li>          
+        </ul>
+      </nav>
+    </div>
+
+    <div class="row">
+      {% for album in albums %}
+      <div class="col-md-4">
+        <div class="card mb-4 shadow-sm">
+          <a href="/album/{{ album.id }}">
+            <img class="bd-placeholder-img card-img-top" src="{{ album.album_art }}"
+              alt="Album art for {{ album.title }}" onerror="this.src='/static/img/no-albumart.svg';"/>
+          </a>
+          <div class="card-body">
+            <span class="card-text"><small>by <a
+                  href="/artist/{{ album.artist.id }}">{{ album.artist.name }}</a></small></span><br>
+            <a href="/album/{{ album.id }}">
+              <span class="card-text">{{ album.title }}</small></span><br>
+            </a>
+            <span class="card-text"><small>{{album.year }} - {{album.format}}</small></span><br>
+            <span class="card-text">{{ "$%.2f"|format(album.price) }}</span>
+            <div class="d-flex justify-content-between align-items-center mt-2">
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-primary add-to-cart">Add to cart</button>
+              </div>
+              <small class="text-muted">★★★★★</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="row">
+      <nav>
+        <ul class="pagination">
+          <li class="page-item"><a class="page-link" href="{{ url_for('home', last_evaluated_key=prev_evaluated_key) }}">Previous</a></li>
+          <li class="page-item"><a class="page-link" href="{{ url_for('home', last_evaluated_key=last_evaluated_key, prev_evaluated_key=prev_evaluated_key) }}">Next</a></li>          
+        </ul>
+      </nav>
+    </div>
+
+  </div>
+</div>
+
+
+
+{% endblock content %}

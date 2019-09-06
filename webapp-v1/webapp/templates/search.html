@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <form id="search" method="get" action="/results">
+        <div class="input-group mt-3 mb-3">
+          <input type="text" class="form-control" id="term" name="term" required placeholder="Artist, album, or track" value="{{ term }}">
+          <div class="input-group-append">
+            <select class="form-control ml-2" id="entity_type" name="entity_type">
+              <option value="artist">Artist</option>
+              <option value="album">Album</option>
+              <option value="track">Track</option>
+            </select>
+          </div>
+          <button id="search-btn" type="submit" class="btn btn-secondary ml-2">Search</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

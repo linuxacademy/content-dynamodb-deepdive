@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="album py-5 bg-light">
+  <div class="container">
+    <h1>Search Results for artist: {{ term }}</h1>
+
+    {% if artists|length > 0 %}
+    <div class="row">
+      <div class="col-md-4">
+        <ul class="list-group">
+          {% for artist in artists %}
+          <li class="list-group-item">
+            <a href="/artist/{{ artist.id }}">{{ artist.name }}</a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    {% else %}
+    <div class="row">
+      <div class="col-md-12">
+        <h1 class="display-3">Sorry, no results!</h1>
+      </div>
+    </div>
+    {% endif %}
+    
+  </div>
+</div>
+
+
+{% endblock content %}
