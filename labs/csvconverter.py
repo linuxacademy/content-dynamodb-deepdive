@@ -1,4 +1,4 @@
-import csv, argparse, json, re
+import csv, argparse, json
 
 def main():
     ap = argparse.ArgumentParser()
@@ -28,6 +28,7 @@ def main():
                     continue
 
                 value = csvData[i][v]
+
                 if '.' in value:
                     try:
                         dataDict[headings[v]] = float(value)
@@ -38,9 +39,6 @@ def main():
                         dataDict[headings[v]] = int(value)
                     except ValueError:
                         dataDict[headings[v]] = value
-                
-                if '\\"' in value:
-                    re.sub('\\"', '', value)
 
             if args['output'] == 'dynamodb':
                 for key, value in dataDict.items():
