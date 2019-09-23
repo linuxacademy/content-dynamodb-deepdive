@@ -130,5 +130,7 @@ dmypy.json
 .vscode/
 
 # Album art
-
 webapp/static/albumart
+
+# DS Store
+.DS_Store
