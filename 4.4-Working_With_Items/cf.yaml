@@ -70,13 +70,9 @@ Resources:
             yum update -y
             yum install -y python3
             pip3 install --upgrade awscli boto3 pymysql
-            mkdir -p /home/ec2-user/.aws
-            touch /home/ec2-user/.aws/config
-            echo "[default]" >> /home/ec2-user/.aws/config
-            echo "region = us-east-1" >> /home/ec2-user/.aws/config
-            chown ec2-user:ec2-user /home/ec2-user/.aws/config
-            chmod 600 /home/ec2-user/.aws/config
-            aws configure set default.region us-east-1
+            REGION=$(curl --silent http://169.254.169.254/latest/dynamic/instance-identity/document | grep region | awk -F\" '{print $4}')
+            aws configure set default.region $REGION
+            sudo -u ec2-user aws configure set region $REGION
             curl https://raw.githubusercontent.com/linuxacademy/content-dynamodb-deepdive/master/labs/bootstrap/tablebootstrap.py | python3 /dev/stdin -s 1 -o csv -f s3://dynamodblabs/artist.csv,s3://dynamodblabs/album.csv,s3://dynamodblabs/track.csv
       NetworkInterfaces:
         - AssociatePublicIpAddress: true
