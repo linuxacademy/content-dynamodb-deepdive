@@ -106,8 +106,8 @@ class csvUtil:
                                 dataDict[headings[index]] = int(value)
                             except ValueError:
                                 dataDict[headings[index]] = value
-                    except Exception as e:
-                        print(f"{e}: on {v} - {value}\nheadings: {headings}")
+                    except Exception:
+                        pass
 
                 if outFormat == 'dynamodb':
                     for key, value in dataDict.items():
@@ -346,7 +346,6 @@ def main():
                 csvData[fileKey] = csvFile.convertToObj('json')
 
         for key in csvData.keys():
-            print(key)
             status[key] = 0
             ddbAttributes = [{'AttributeName': 'id','AttributeType':'N'}]
             ddbKeySchema = [{'AttributeName': 'id', 'KeyType': 'HASH'}]
