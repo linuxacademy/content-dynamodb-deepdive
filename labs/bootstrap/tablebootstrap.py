@@ -5,73 +5,6 @@ from time import time, sleep
 from sys import getsizeof
 from multiprocessing import Pool, Manager, current_process, active_children
 
-class MySQL:
-    def __init__(self, dbParams):
-        self.dbParams = dbParams
-        self.con = pymysql.connect(
-            host=dbParams['host'],
-            user=dbParams['username'],
-            password=dbParams['password'],
-            db=dbParams['database'],
-            cursorclass=pymysql.cursors.DictCursor
-        )
-        self.cursor = self.con.cursor()
-        self.tables = {}
-    
-    def __del__(self):
-        self.cursor.close()
-        self.con.close()
-
-    def query(self, sql):
-        self.cursor.execute(sql)
-        return self.cursor.fetchall()
-
-    def scanSchema(self):
-        showTables = self.query('SHOW TABLES')
-        for row in showTables:
-            database = self.dbParams['database']
-            self.tables[row[f'Tables_in_{database}']] = {}
-        
-        for table in self.tables.keys():
-            self.tables[table]['columns'] = []
-            
-            describeTable = self.query(f'DESCRIBE {table}')
-            for row in describeTable:
-                self.tables[table]['columns'].append(row['Field'])
-                if row['Key'] == 'PRI':
-                    self.tables[table]['primarykey'] = row['Field']
-            
-            rowCount = self.query(f'SELECT COUNT(0) FROM {table}')
-            for row in rowCount:
-                self.tables[table]['rows'] = row['COUNT(0)']
-
-    def getSchemaInfo(self):
-        if len(self.tables) == 0:
-            self.scanSchema()
-        return self.tables
-        
-    def getDataChunkS1(self, table, start, end):
-        if start > 0:
-            start -= 1
-
-        if end < start:
-            return f'Error: end is before beginning {start} > {end}'
-
-        chunkSize = end - start
-        if table == 'album':
-            dataChunk = self.query(f'SELECT id, sku, artist_id, title, year, format, price FROM {table} LIMIT {start}, {chunkSize}')
-        else:
-            dataChunk = self.query(f'SELECT * FROM {table} LIMIT {start}, {chunkSize}')
-
-        return dataChunk
-
-    def getDataChunkS2(self, start, end):
-        if end < start:
-            return f'Error: end is before beginning {start} > {end}'
-
-        chunkSize = end - start
-        return self.query(f'SELECT artist.name AS \'ArtistName\', album.id as \'AlbumID\', album.title AS \'AlbumTitle\', album.year AS \'AlbumYear\', album.format AS \'AlbumFormat\', album.price AS \'AlbumPrice\', GROUP_CONCAT(track.name) AS \'TrackNames\', CONCAT(\'TrackNames:\',GROUP_CONCAT(track.name),\', TrackLengths:\',GROUP_CONCAT(track.length),\', TrackNumbers:\',GROUP_CONCAT(track.number)) AS \'TrackInformation\' FROM artist JOIN album ON album.artist_id=artist.id JOIN track ON track.album_id=album.id GROUP BY album.id LIIMIT {start}, {chunkSize}')
-
 class csvUtil:
     def __init__(self, inputData):
         self.csvData = list(csv.reader(inputData, delimiter = '*', quotechar = '#', escapechar = '\\'))
@@ -229,16 +162,11 @@ def worker(source, table, chunkStart, chunkEnd, dbParams, schema, status, data =
             'bytes': 'B'
         }
 
-    if source == 'mysql':
-        mysql = MySQL(dbParams)
-        if schema == '1':
-            data = mysql.getDataChunkS1(table, chunkStart, chunkEnd)
-        if schema == '2':
-            data = mysql.getDataChunkS2(chunkStart, chunkEnd)
-    elif source == 'csv':
+    if source == 'csv':
         data = data
     
     dataToPut = [ data[i * 25:(i +1) * 25] for i in range((len(data) + 25 -1) // 25) ]
+
     for rowList in dataToPut:
         batchDataSize = 0
         items = []
@@ -303,10 +231,7 @@ def main():
     ap.add_argument('-p', '--processes', type = int, default = 32, help = "Number of processes to use")
     ap.add_argument('-s', '--schema', required = True, choices = ['1', '2'], help = 'Schema to migrate to (1 or 2)')
     ap.add_argument('-o', '--origin', required = True, choices = ['csv', 'mysql'], help = 'Specify source (csv, or mysql)')
-    ap.add_argument('-d', '--host', help = 'Hostname for MySQL server for mysql origin')
-    ap.add_argument('-u', '--user', help = 'Username for MySQL server for mysql origin')
-    ap.add_argument('-P', '--password', help = 'Password for MySQL server for mysql origin')
-    ap.add_argument('-n', '--database', help = 'Source database to migrate')
+    ap.add_argument('-c', '--clean', choices = ['True', 'False'], default = 'True', help = 'Specify if existing tables should be deleted')
     ap.add_argument('-f', '--file', help = 'Location of csv file(s) if source is csv')
     args = vars(ap.parse_args())
 
@@ -314,6 +239,7 @@ def main():
     processPool = Pool(processes = workerProcesses)
     source = args['origin']
     schema = args['schema']
+    clean = bool(args['clean'])
     tableArgs = []
 
     if args['origin'] == 'csv':
@@ -350,7 +276,7 @@ def main():
             ddbAttributes = [{'AttributeName': 'id','AttributeType':'N'}]
             ddbKeySchema = [{'AttributeName': 'id', 'KeyType': 'HASH'}]
                 
-            ddb.createTable(key, ddbAttributes, ddbKeySchema, 'PAY_PER_REQUEST', True)
+            ddb.createTable(key, ddbAttributes, ddbKeySchema, 'PAY_PER_REQUEST', clean)
             
             itemCount = len(csvData[key])
             chunkSize = itemCount // workerProcesses
@@ -365,69 +291,6 @@ def main():
                 chunkEnd = chunkSize * (i + 1)
                 chunk = csvData[key][chunkStart:chunkEnd]
                 tableArgs.append(('csv', key, 0, 0, 'none', 1, status, chunk))
-
-    if args['origin'] == 'mysql':
-        ifArg = 'if origin argument is mysql'
-        if args['host'] == None:
-            print(f'{ifArg} -d/--host must be provided')
-            return
-        if args['user'] == None:
-            print(f'{ifArg} -u/--user must be provided')
-            return
-        if args['password'] == None:
-            print(f'{ifArg} -P/--password must be provided')
-            return
-        if args['database'] == None:
-            print(f'{ifArg} -n/--database must be provided')
-            return
-    
-        dbParams = {
-            'host': args['host'],
-            'username': args['user'],
-            'password': args['password'],
-            'database': args['database']
-        }
-        
-        mysql = MySQL(dbParams)
-        ddb = DynamoDB()
-        schemaInfo = mysql.getSchemaInfo()
-        
-        status = Manager().dict()
-
-        if schema == '1':
-            totalRows = 0
-
-            for table in schemaInfo.items():
-                totalRows += table[1]['rows']
-
-            chunkSize = (totalRows // workerProcesses) // len(schemaInfo.keys())
-
-            for table in schemaInfo.keys():
-                status[table] = 0
-                ddbAttributes = [{'AttributeName': schemaInfo[table]['primarykey'],'AttributeType':'N'}]
-                ddbKeySchema = [{'AttributeName': schemaInfo[table]['primarykey'], 'KeyType': 'HASH'}]
-                
-                ddb.createTable(table, ddbAttributes, ddbKeySchema, 'PAY_PER_REQUEST', True)
-                
-                tableRows = schemaInfo[table]['rows']
-                extraChunk = tableRows % chunkSize
-                print(f'[!]: Chunk Size - {chunkSize}\n     Extra Chunk - {extraChunk}')
-                if extraChunk != 0:
-                    if extraChunk - int(extraChunk) != 0:
-                        extraChunk = int(extraChunk) + 1
-                    
-                iters = tableRows // chunkSize
-                
-                chunkStart = 0
-                chunkEnd = chunkSize
-                for _ in range(iters):
-                    tableArgs.append((source, table, chunkStart, chunkEnd, dbParams, schema, status))
-                    chunkStart += chunkSize
-                    chunkEnd += chunkSize
-                if extraChunk > 0:
-                    chunkStart += chunkSize
-                    chunkEnd += extraChunk
-                    tableArgs.append((source, table, chunkStart, chunkEnd, dbParams, schema, status))
             
     random.shuffle(tableArgs)
     print('[!]: Starting Migration')
