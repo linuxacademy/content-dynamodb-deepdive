@@ -1,0 +1,108 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: Migrate CSV to DynamoDB
+
+Parameters:
+  KeyPair:
+    Type: 'AWS::EC2::KeyPair::KeyName'
+  LatestAmiId:
+    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
+    Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2'
+
+Resources:
+  DDBVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      InstanceTenancy: default
+  PubSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref 'DDBVPC'
+      CidrBlock: 10.0.0.0/24
+      MapPublicIpOnLaunch: true
+  DDBIGW:
+    Type: AWS::EC2::InternetGateway
+    Properties: {}
+  IGWAttach:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref 'DDBVPC'
+      InternetGatewayId: !Ref 'DDBIGW'
+  DDBVPCRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref 'DDBVPC'
+  DDBRtblAssoc:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref 'PubSubnet'
+      RouteTableId: !Ref 'DDBVPCRouteTable'
+  ToTheWorld:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref 'DDBVPCRouteTable'
+      DestinationCidrBlock: '0.0.0.0/0'
+      GatewayId: !Ref 'DDBIGW'
+
+  WorkInstanceSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allows SSH Access to DDB Admin instance
+      VpcId: !Ref 'DDBVPC'
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: '0.0.0.0/0'
+
+  Ec2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref LatestAmiId
+      InstanceType: t3.medium
+      KeyName: !Ref KeyPair
+      UserData:
+        Fn::Base64: |
+            #!/bin/bash -xe
+            yum update -y
+            yum install -y python3
+            pip3 install --upgrade awscli boto3 pymysql
+            REGION=$(curl --silent http://169.254.169.254/latest/dynamic/instance-identity/document | grep region | awk -F\" '{print $4}')
+            aws configure set default.region $REGION
+            sudo -u ec2-user aws configure set region $REGION
+            curl https://raw.githubusercontent.com/linuxacademy/content-dynamodb-deepdive/master/labs/bootstrap/tablebootstrap.py | python3 /dev/stdin -s 1 -o csv -f s3://dynamodblabs/artist.csv,s3://dynamodblabs/album.csv,s3://dynamodblabs/track.csv
+      NetworkInterfaces:
+        - AssociatePublicIpAddress: true
+          DeviceIndex: '0'
+          GroupSet:
+            - !Ref 'WorkInstanceSG'
+          SubnetId: !Ref 'PubSubnet'
+      IamInstanceProfile: !Ref 'DDBAdminProfile'
+
+  DDBAdminRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess
+        - arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess
+
+  DDBAdminProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - !Ref 'DDBAdminRole'
+
+Outputs:
+  pubIpAddress1:
+    Description: Public IP address of Bastion Host
+    Value: !GetAtt 'Ec2Instance.PublicIp'

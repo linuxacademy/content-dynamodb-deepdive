@@ -13,6 +13,16 @@ This version features:
   
 ## Setup for Amazon Linux 2
 
+## Configure AWS Region
+
+Write the following to `~/.aws/config` if you have not already run `aws configure`:
+
+```text
+[default]
+region=us-east-1
+```
+## Install Packages
+
 ```sh
 sudo yum groupinstall -y "Development Tools"
 sudo yum install -y python3-pip python3 python3-devel python3-setuptools git mariadb mariadb-devel mariadb-server
@@ -33,20 +43,16 @@ exit;
 ### Restore MySQL database
 
 ```sh
+aws s3 cp s3://dynamodblabs/pineheadrecords.sql .
+mysql -uroot -p pinehead < pineheadrecords.sql
+```
+
+```sh
 git clone <url to repo>
 cd <path to project>
 pipenv install
 pipenv shell
 pip3 install --user pipenv
-```
-
-## Configure AWS Region
-
-Write the following to `~/.aws/config` if you have not already run `aws configure`:
-
-```text
-[default]
-region=us-east-1
 ```
 
 ## Run the Flask app

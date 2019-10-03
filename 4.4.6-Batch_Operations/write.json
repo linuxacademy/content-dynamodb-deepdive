@@ -1,0 +1,28 @@
+{
+  "artist": [
+    {  
+      "PutRequest": {
+        "Item": {
+          "id": {"N": "999888777"},
+          "name": {"S": "Polygon Formality"}
+        }
+      }
+    },
+    {  
+      "PutRequest": {
+        "Item": {
+          "id": {"N": "999888778"},
+          "name": {"S": "Sponsored Spore"}
+        }
+      }
+    },
+    {  
+      "PutRequest": {
+        "Item": {
+          "id": {"N": "999888779"},
+          "name": {"S": "Ghost Stories"}
+        }
+      }
+    }
+  ]
+}
