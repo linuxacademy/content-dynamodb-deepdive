@@ -25,7 +25,7 @@ table = dynamodb.Table("album")
 
 response = table.query(
     IndexName="artist_id-index",
-    KeyConditionExpression=Key("artist_id").eq(192),
+    KeyConditionExpression=Key("artist_id").eq(192),  # 192 = Queen
     ProjectionExpression="title, price",
 )
 
