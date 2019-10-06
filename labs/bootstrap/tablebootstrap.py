@@ -1,6 +1,5 @@
 import argparse, random, json, csv
 import boto3
-import pymysql, pymysql.cursors
 from time import time, sleep
 from sys import getsizeof
 from multiprocessing import Pool, Manager, current_process, active_children
