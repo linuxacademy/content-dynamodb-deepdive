@@ -7,7 +7,7 @@ from multiprocessing import Pool, Manager, current_process, active_children
 
 class csvUtil:
     def __init__(self, inputData):
-        self.csvData = list(csv.reader(inputData, delimiter = '*', quotechar = '#', escapechar = '\\'))
+        self.csvData = list(csv.reader(inputData, delimiter = 'Ԙ', quotechar = 'ԡ'))
     
     def convertToObj(self, outFormat):
         headings = self.csvData[0]
