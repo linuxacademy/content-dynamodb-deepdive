@@ -7,7 +7,7 @@ Create a Scores table and Award GSI
 import boto3
 
 client = boto3.client("dynamodb")
-table_name = "scores"
+table_name = "game"
 dynamodb = boto3.resource("dynamodb")
 table = dynamodb.Table(table_name)
 
@@ -41,17 +41,29 @@ print(response["Table"]["TableStatus"])
 
 items = [
     {"game": "Game 1", "user": "Mark", "score": 12, "date": "2019-07-12"},
-    {"game": "Game 1", "user": "Mark", "score": 23, "date": "2019-07-12"},
-    {"game": "Game 1", "user": "John", "score": 27, "date": "2019-07-12"},
     {
         "game": "Game 1",
+        "user": "Kelby",
+        "score": 23,
+        "date": "2019-07-12",
+        "award": "champ",
+    },
+    {"game": "Game 2", "user": "John", "score": 27, "date": "2019-07-12"},
+    {
+        "game": "Game 2",
         "user": "Julie",
         "score": 42,
         "date": "2019-07-12",
         "award": "champ",
     },
-    {"game": "Game 2", "user": "Terry", "score": 36, "date": "2019-07-12"},
-    {"game": "Game 2", "user": "Moosa", "score": 32, "date": "2019-07-12"},
+    {
+        "game": "Game 3",
+        "user": "Terry",
+        "score": 36,
+        "date": "2019-07-12",
+        "award": "champ",
+    },
+    {"game": "Game 3", "user": "Moosa", "score": 32, "date": "2019-07-12"},
 ]
 
 [table.put_item(Item=i) for i in items]
