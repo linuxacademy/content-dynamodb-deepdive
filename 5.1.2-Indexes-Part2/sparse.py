@@ -7,7 +7,7 @@ Create a Scores table and Award GSI
 import boto3
 
 client = boto3.client("dynamodb")
-table_name = "scores4"
+table_name = "scores"
 dynamodb = boto3.resource("dynamodb")
 table = dynamodb.Table(table_name)
 
