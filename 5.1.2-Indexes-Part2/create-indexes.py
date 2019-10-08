@@ -80,10 +80,12 @@ try:
         ],
     )
     print(response)
-    wait_index("artist")
+    wait_index("album")
 except ClientError as e:
     if "create an index which already exists" in e.response["Error"]["Message"]:
         print("Index artist_id-index already exists")
+    else:
+        raise e
 
 
 try:
@@ -101,11 +103,12 @@ try:
         ],
     )
     print(response)
-    wait_index("artist")
+    wait_index("album")
 except ClientError as e:
     if "create an index which already exists" in e.response["Error"]["Message"]:
         print("Index artist_name-index already exists")
-
+    else:
+        raise e
 
 try:
     response = client.update_table(
@@ -122,10 +125,12 @@ try:
         ],
     )
     print(response)
-    wait_index("artist")
+    wait_index("album")
 except ClientError as e:
     if "create an index which already exists" in e.response["Error"]["Message"]:
         print("Index artist_title-index already exists")
+    else:
+        raise e
 
 print("Adding GSIs to track table")
 
@@ -144,9 +149,11 @@ try:
         ],
     )
     print(response)
-    wait_index("artist")
+    wait_index("track")
 except ClientError as e:
     if "create an index which already exists" in e.response["Error"]["Message"]:
         print("Index album_id-index already exists")
     elif "Index is being created" in e.response["Error"]["Message"]:
         print("Index album_id-index is being created")
+    else:
+        raise e
