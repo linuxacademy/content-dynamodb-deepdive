@@ -10,6 +10,7 @@ def scan(tableName):
 
     startTime = time()
     totalCapacity = 0
+    totalCount = 0
 
     try:
         queryResponse = ddbClient.scan(
@@ -19,8 +20,21 @@ def scan(tableName):
         return e
 
     totalCapacity += queryResponse["ConsumedCapacity"]["CapacityUnits"]
+    totalCount += queryResponse["Count"]
+
+    for _ in range(9):
+        try:
+            queryResponse = ddbClient.scan(
+                TableName=tableName, ReturnConsumedCapacity="TOTAL"
+            )
+        except Exception as e:
+            return e
+
+        totalCapacity += queryResponse["ConsumedCapacity"]["CapacityUnits"]
+        totalCount += queryResponse["Count"]
 
     queryResponse["ConsumedCapacity"]["CapacityUnits"] = totalCapacity
+    queryResponse['Count'] = totalCount
 
     endTime = time()
     opTime = {"seconds": 0}
@@ -30,14 +44,15 @@ def scan(tableName):
         opTime["seconds"] = opTime["seconds"] % 60
 
     if "minutes" in opTime.keys():
-        return f'Query/Scan complete in {opTime["minutes"]} Minutes {opTime["seconds"]} Seconds\nyRead Capacity Consumed: {queryResponse["ConsumedCapacity"]["CapacityUnits"]} Capacity Units'
+        return f'Query/Scan complete in {opTime["minutes"]} Minutes {opTime["seconds"]} Seconds\nyRead Capacity Consumed: {queryResponse["ConsumedCapacity"]["CapacityUnits"]} Capacity Units\nItems Returned: {queryResponse["Count"]}'
     else:
-        return f'Query/Scan complete in {int(opTime["seconds"] * 1000)} Milliseconds\nRead Capacity Consumed: {queryResponse["ConsumedCapacity"]["CapacityUnits"]} Capacity Units'
+        return f'Query/Scan complete in {int(opTime["seconds"] * 1000)} Milliseconds\nRead Capacity Consumed: {queryResponse["ConsumedCapacity"]["CapacityUnits"]} Capacity Units\nItems Returned: {queryResponse["Count"]}'
 
 
 def main():
     print("\nTesting Scan time and read capacity unit usage:")
     for table in ["album", "album_bin"]:
+        print(f'Scanning: {table}')
         print(scan(table))
 
 
