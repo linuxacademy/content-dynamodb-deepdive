@@ -20,16 +20,6 @@ def scan(tableName):
 
     totalCapacity += queryResponse["ConsumedCapacity"]["CapacityUnits"]
 
-    while "LastEvaluatedKey" in queryResponse.keys():
-        try:
-            queryResponse = ddbClient.scan(
-                TableName=tableName, ReturnConsumedCapacity="TOTAL"
-            )
-        except Exception as e:
-            return e
-
-        totalCapacity += queryResponse["ConsumedCapacity"]["CapacityUnits"]
-
     queryResponse["ConsumedCapacity"]["CapacityUnits"] = totalCapacity
 
     endTime = time()
