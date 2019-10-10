@@ -9,9 +9,6 @@ from botocore.exceptions import ClientError
 dynamodb = boto3.resource("dynamodb")
 table = dynamodb.Table("album")
 
-# Conditional PutItem (will fail)
-print("Attempting conditional PutItem...")
-
 try:
     response = table.put_item(
         Item={
