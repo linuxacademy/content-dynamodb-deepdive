@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 import uuid
+import time
 
 import boto3
-from boto3.dynamodb.conditions import Attr
 from botocore.exceptions import ClientError
 
 client = boto3.client("dynamodb")
@@ -14,8 +14,14 @@ if "orders" not in existing_tables:
     print("Creating orders table")
     response = client.create_table(
         TableName="orders",
-        KeySchema=[{"AttributeName": "id", "KeyType": "HASH"}],
-        AttributeDefinitions=[{"AttributeName": "id", "AttributeType": "S"}],
+        KeySchema=[
+            {"AttributeName": "id", "KeyType": "HASH"},
+            {"AttributeName": "timestamp", "KeyType": "RANGE"},
+        ],
+        AttributeDefinitions=[
+            {"AttributeName": "id", "AttributeType": "S"},
+            {"AttributeName": "timestamp", "AttributeType": "N"},
+        ],
         BillingMode="PAY_PER_REQUEST",
     )
     print(f"Waiting for table orders...")
@@ -43,8 +49,10 @@ try:
                     "TableName": "orders",
                     "Item": {
                         "id": {"S": str(uuid.uuid4())},
+                        "timestamp": {"N": str(int(time.time()))},
                         "amount": {"N": str(5.5)},
                         "email": {"S": "mark@linuxacademy.com"},
+                        "album_id": {"N": "28222"},
                     },
                 }
             },
