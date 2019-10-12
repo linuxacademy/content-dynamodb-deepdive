@@ -42,6 +42,17 @@ def convertCSV(fileName):
                     except ValueError:
                         item[key] = {'S': str(value)}
 
+        album_id = str(item['id']['N'])
+        id_album = list(album_id)
+        id_album.reverse()
+        filepath = '/'.join(id_album)
+        filename = f'{album_id}.jpg'
+        fullpath = f'/albumart/{filepath}/{filename}'
+
+        item['album_art'] = {
+            'S' : fullpath
+        }
+
         for key in keysToDel:
             del item[key]
 
