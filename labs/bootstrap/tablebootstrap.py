@@ -1,4 +1,4 @@
-import argparse, random, json, csv
+import argparse, random, csv
 import boto3
 from time import time, sleep
 from sys import getsizeof
@@ -88,13 +88,14 @@ class DynamoDB:
         
         return
 
-    def createTable(self, tableName, attributes, keySchema, billingMode, clean, provisionedThroughput = {}):
+    def createTable(self, tableName, attributes, keySchema, billingMode, clean, provisionedThroughput = {}, LSI = None, GSI = None ):
         print(f'[!]: Creating {tableName}')
         if clean:
             if tableName in self.listTables():
                 print(f'[!]: Cleanup enabled, deleting existing table {tableName}')
                 self.deleteTable(tableName)
 
+        
         try:
             if billingMode == 'PROVISIONED':
                 self.client.create_table(
@@ -104,12 +105,43 @@ class DynamoDB:
                     TableName = tableName
                 )
             elif billingMode == 'PAY_PER_REQUEST':
-                self.client.create_table(
-                    AttributeDefinitions = attributes,
-                    KeySchema = keySchema,
-                    BillingMode = billingMode,
-                    TableName = tableName
-                )
+                try:
+                    self.client.create_table(
+                        AttributeDefinitions = attributes,
+                        KeySchema = keySchema,
+                        BillingMode = billingMode,
+                        LocalSecondaryIndexes = LSI,
+                        GlobalSecondaryIndexes = GSI,
+                        TableName = tableName
+                    )
+                except Exception:
+                    try:
+                        self.client.create_table(
+                            AttributeDefinitions = attributes,
+                            KeySchema = keySchema,
+                            BillingMode = billingMode,
+                            LocalSecondaryIndexes = LSI,
+                            TableName = tableName
+                        )
+                    except Exception:
+                        try:
+                            self.client.create_table(
+                                AttributeDefinitions = attributes,
+                                KeySchema = keySchema,
+                                BillingMode = billingMode,
+                                GlobalSecondaryIndexes = GSI,
+                                TableName = tableName
+                            )
+                        except Exception:
+                            try:
+                                self.client.create_table(
+                                    AttributeDefinitions = attributes,
+                                    KeySchema = keySchema,
+                                    BillingMode = billingMode,
+                                    TableName = tableName
+                                )
+                            except Exception as e:
+                                print(e)
 
         except Exception as e:
             return e
@@ -149,10 +181,10 @@ class DynamoDB:
             print(f'[-]: Exception encountered tries {self.batchTrys}\n     {e}')
             return e
 
-def worker(source, table, chunkStart, chunkEnd, dbParams, schema, status, data = None):
+def worker(table, chunkStart, chunkEnd, status, data = None):
     ddb = DynamoDB()
     procName = current_process().name
-    typeConversion = {
+    '''typeConversion = {
             'int': 'N',
             'decimal.Decimal': 'N',
             'Decimal': 'N',
@@ -160,16 +192,13 @@ def worker(source, table, chunkStart, chunkEnd, dbParams, schema, status, data =
             'str': 'S',
             'bytes': 'B'
         }
-
-    if source == 'csv':
-        data = data
-    
+    '''
     dataToPut = [ data[i * 25:(i +1) * 25] for i in range((len(data) + 25 -1) // 25) ]
 
     for rowList in dataToPut:
         batchDataSize = 0
         items = []
-
+        
         for row in rowList:
             putItem = {
                 'PutRequest': {
@@ -177,23 +206,50 @@ def worker(source, table, chunkStart, chunkEnd, dbParams, schema, status, data =
                     }
                 }
             }
-           
+
+            keysToDel = []
+
             for k,v in row.items():
                 batchDataSize += getsizeof(v)
 
-                if type(v).__name__ == 'NoneType' or v == '':
-                    continue
-                
-                try:
-                    putItem['PutRequest']['Item'][k] = {
-                        typeConversion[type(v).__name__]: str(v)
-                    }
-                except Exception as e:
-                    print(f'[-]: {procName} Error generating putItem object - {e}')
-                    print(row)
+                if v in {'Null', 'NULL', None, ''}:
+                    keysToDel.append(k)
+                elif k == 'artist_name':
+                    row[k] = {'S': str(v)}
+                elif k == 'id':
+                    row[k] = {'N': str(v)}
+                elif k == 'format':
+                    row[k] = {'S': str(v)}
+                elif k == 'price':
+                    row[k] = {'N': str(v)}
+                elif k == 'title':
+                    row[k] = {'S': str(v)}
+                elif k == 'year':
+                    row[k] = {'N': str(v)}
+                elif k == 'track_information':
+                    row[k] = {'S': str(v)}
+                else:
+                    if '.' in str(v):
+                        try:
+                            v = float(v)
+                            row[k] = {'N': str(v)}
+                        except ValueError:
+                            row[k] = {'S': str(v)}
+                    else:
+                        try:
+                            v = int(v)
+                            row[k] = {'N': str(v)}
+                        except ValueError:
+                            row[k] = {'S': str(v)}
 
-            if table == 'album':
-                album_id = str(row['id'])
+            for key in keysToDel:
+                del row[key]
+
+            for k,v in row.items():    
+                    putItem['PutRequest']['Item'][k] = v
+
+            if table in {'album', 'pinehead_records_s2', 'pinehead_records_s3'}:
+                album_id = str(row['id']['N'])
                 id_album = list(album_id)
                 id_album.reverse()
                 filepath = '/'.join(id_album)
@@ -227,69 +283,157 @@ def worker(source, table, chunkStart, chunkEnd, dbParams, schema, status, data =
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('-p', '--processes', type = int, default = 32, help = "Number of processes to use")
-    ap.add_argument('-s', '--schema', required = True, choices = ['1', '2'], help = 'Schema to migrate to (1 or 2)')
-    ap.add_argument('-o', '--origin', required = True, choices = ['csv', 'mysql'], help = 'Specify source (csv, or mysql)')
+    ap.add_argument('-p', '--processes', type = int, default = 10, help = "Number of processes to use")
+    ap.add_argument('-s', '--schema', required = True, choices = ['1', '2', '3'], help = 'Schema to migrate to (1, 2 or 3)')
     ap.add_argument('-c', '--clean', choices = ['True', 'False'], default = 'True', help = 'Specify if existing tables should be deleted')
     ap.add_argument('-f', '--file', help = 'Location of csv file(s) if source is csv')
     args = vars(ap.parse_args())
 
     workerProcesses = args['processes']
     processPool = Pool(processes = workerProcesses)
-    source = args['origin']
     schema = args['schema']
     clean = bool(args['clean'])
     tableArgs = []
 
-    if args['origin'] == 'csv':
-        fileLocations = args['file']
-        if fileLocations == None:
-            print('File location must be provided when using the data origin is csv')
-            return
-        
-        ddb = DynamoDB()
-        status = Manager().dict()
-        fileLocations = fileLocations.split(',')
-        csvData = {}
+    fileLocations = args['file']
+    if fileLocations == None:
+        print('File location must be provided when using the data origin is csv')
+        return
+    
+    ddb = DynamoDB()
+    status = Manager().dict()
+    fileLocations = fileLocations.split(',')
+    csvData = {}
 
-        for fileName in fileLocations:
-            if fileName[:3] == 's3:':
-                bucketName = fileName.split('://')[1].split('/')[0]
-                dataBucket = s3(bucketName)
-                s3Key = fileName.split('://')[1].split('/')[1]
-                s3Data = dataBucket.getObject(s3Key)
-                csvFile = csvUtil(s3Data)
-                csvData[fileName.split('/')[-1].split('.')[0]] = csvFile.convertToObj('json')
+    for fileName in fileLocations:
+        if fileName[:3] == 's3:':
+            bucketName = fileName.split('://')[1].split('/')[0]
+            dataBucket = s3(bucketName)
+            s3Key = fileName.split('://')[1].split('/')[1]
+            s3Data = dataBucket.getObject(s3Key)
+            csvFile = csvUtil(s3Data)
+            csvData[fileName.split('/')[-1].split('.')[0]] = csvFile.convertToObj('json')
+        else:
+            csvFile = csvUtil(open(fileName))
+
+            if fileName[0] == '/':
+                fileKey = fileName.split('/')[-1].split('.')[0]
             else:
-                csvFile = csvUtil(open(fileName))
+                fileKey = fileName.split('.')[0]
 
-                if fileName[0] == '/':
-                    fileKey = fileName.split('/')[-1].split('.')[0]
-                else:
-                    fileKey = fileName.split('.')[0]
+            csvData[fileKey] = csvFile.convertToObj('json')
 
-                csvData[fileKey] = csvFile.convertToObj('json')
-
-        for key in csvData.keys():
-            status[key] = 0
+    for key in csvData.keys():
+        print(f'Doing the needful for {key}')
+        status[key] = 0
+        if schema == '1':
             ddbAttributes = [{'AttributeName': 'id','AttributeType':'N'}]
             ddbKeySchema = [{'AttributeName': 'id', 'KeyType': 'HASH'}]
-                
-            ddb.createTable(key, ddbAttributes, ddbKeySchema, 'PAY_PER_REQUEST', clean)
-            
-            itemCount = len(csvData[key])
-            chunkSize = itemCount // workerProcesses
-            extraChunk = itemCount % workerProcesses
-            if extraChunk != 0:
-                extraChunk = int(extraChunk) + 1
-            
-            iters = itemCount // chunkSize
 
-            for i in range(iters):
-                chunkStart = chunkSize * i
-                chunkEnd = chunkSize * (i + 1)
-                chunk = csvData[key][chunkStart:chunkEnd]
-                tableArgs.append(('csv', key, 0, 0, 'none', 1, status, chunk))
+            ddb.createTable(key, ddbAttributes, ddbKeySchema, 'PAY_PER_REQUEST', clean)
+        
+        elif schema == '2':
+            ddbAttributes = [{'AttributeName': 'artist_name', 'AttributeType': 'S'},{'AttributeName': 'id', 'AttributeType': 'N'},{'AttributeName': 'title', 'AttributeType': 'S'},{'AttributeName': 'year', 'AttributeType': 'N'},{'AttributeName': 'format', 'AttributeType': 'S'},{'AttributeName': 'price', 'AttributeType': 'N'}]
+            ddbKeySchema = [{'AttributeName': 'artist_name', 'KeyType': 'HASH'}, {'AttributeName': 'id', 'KeyType': 'RANGE'}]
+            ddbLSI = [
+                {
+                    'IndexName': 'artist_name-title-index',
+                    'KeySchema': [
+                        {
+                            'AttributeName': 'artist_name',
+                            'KeyType': 'HASH'
+                        },{
+                            'AttributeName': 'title',
+                            'KeyType': 'RANGE'
+                        }
+                    ],
+                    'Projection': {
+                        'ProjectionType': 'ALL'
+                    }
+                }, 
+                {
+                    'IndexName': 'artist_name-year-index',
+                    'KeySchema': [
+                        {
+                            'AttributeName': 'artist_name',
+                            'KeyType': 'HASH'
+                        },
+                        {
+                            'AttributeName': 'year',
+                            'KeyType': 'RANGE'
+                        }
+                    ], 
+                    'Projection': {
+                        'ProjectionType': 'ALL'
+                    }
+                }
+            ]
+            ddbGSI = [
+                {
+                    'IndexName': 'format-index',
+                    'KeySchema': [
+                        {
+                            'AttributeName': 'format',
+                            'KeyType': 'HASH'
+                        }
+                    ],
+                    'Projection': {
+                        'ProjectionType': 'ALL'
+                    }
+                },
+                {
+                    'IndexName': 'price-index',
+                    'KeySchema': [
+                        {
+                            'AttributeName': 'price',
+                            'KeyType': 'HASH'
+                        }
+                    ],
+                    'Projection': {
+                        'ProjectionType': 'ALL'
+                    }
+                },
+                {
+                    'IndexName': 'title-index',
+                    'KeySchema': [
+                        {
+                            'AttributeName': 'title',
+                            'KeyType': 'HASH'
+                        }
+                    ],
+                    'Projection': {
+                        'ProjectionType': 'ALL'
+                    }
+                },
+                {
+                    'IndexName': 'year-index',
+                    'KeySchema': [
+                        {
+                            'AttributeName': 'year',
+                            'KeyType': 'HASH'
+                        }
+                    ],
+                    'Projection': {
+                        'ProjectionType': 'ALL'
+                    }
+                }
+            ]
+        
+            ddb.createTable(key, ddbAttributes, ddbKeySchema, 'PAY_PER_REQUEST', clean, GSI = ddbGSI, LSI = ddbLSI)
+
+        itemCount = len(csvData[key])
+        chunkSize = itemCount // workerProcesses
+        extraChunk = itemCount % workerProcesses
+        if extraChunk != 0:
+            extraChunk = int(extraChunk) + 1
+        
+        iters = itemCount // chunkSize
+
+        for i in range(iters):
+            chunkStart = chunkSize * i
+            chunkEnd = chunkSize * (i + 1)
+            chunk = csvData[key][chunkStart:chunkEnd]
+            tableArgs.append((key, 0, 0, status, chunk))
             
     random.shuffle(tableArgs)
     print('[!]: Starting Migration')
