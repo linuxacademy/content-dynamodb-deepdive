@@ -14,7 +14,7 @@ existing_tables = client.list_tables()["TableNames"]
 table_name = "session_data"
 
 if table_name not in existing_tables:
-    print("Creating {table_name} table")
+    print(f"Creating {table_name} table")
     response = client.create_table(
         TableName=table_name,
         KeySchema=[
