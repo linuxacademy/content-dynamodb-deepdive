@@ -9,7 +9,7 @@ from botocore.exceptions import ClientError
 
 client = boto3.client("dynamodb")
 dynamodb = boto3.resource("dynamodb")
-candidates = ["Candidate A", "Candidate B"]
+candidates = ["Candidate A"] * 5 + ["Candidate B"] * 4
 
 
 def record_vote():
