@@ -13,16 +13,16 @@ from multiprocessing import Pool, Process, cpu_count
 import boto3
 import pymysql.cursors
 
-dynamodb = boto3.resource('dynamodb', endpoint_url='http://localhost:8000/')
-ddb_artist = dynamodb.Table('artist')
-ddb_album = dynamodb.Table('album')
-ddb_track = dynamodb.Table('track')
+dynamodb = boto3.resource("dynamodb", endpoint_url="http://localhost:8000/")
+ddb_artist = dynamodb.Table("artist")
+ddb_album = dynamodb.Table("album")
+ddb_track = dynamodb.Table("track")
 
 
 def import_artist():
 
-    offsets = get_offsets('artist')
-    tuples = [('artist', offset) for offset in offsets]
+    offsets = get_offsets("artist")
+    tuples = [("artist", offset) for offset in offsets]
 
     pool = Pool(cpu_count())
     results = pool.map(process_artist, tuples)
@@ -33,8 +33,8 @@ def import_artist():
 
 def import_album():
 
-    offsets = get_offsets('album')
-    tuples = [('album', offset) for offset in offsets]
+    offsets = get_offsets("album")
+    tuples = [("album", offset) for offset in offsets]
 
     pool = Pool(cpu_count())
     results = pool.map(process_album, tuples)
@@ -45,8 +45,8 @@ def import_album():
 
 def import_track():
 
-    offsets = get_offsets('track')
-    tuples = [('track', offset) for offset in offsets]
+    offsets = get_offsets("track")
+    tuples = [("track", offset) for offset in offsets]
 
     pool = Pool(cpu_count())
     results = pool.map(process_track, tuples)
@@ -65,12 +65,7 @@ def process_artist(info):
         cursor.execute(sql)
         for row in cursor.fetchall():
             with ddb_artist.batch_writer() as batch:
-                batch.put_item(
-                    Item={
-                        'id': row['id'],
-                        'name': row['name']
-                    }
-                )
+                batch.put_item(Item={"id": row["id"], "name": row["name"]})
 
     con.close()
 
@@ -86,18 +81,18 @@ def process_album(info):
         for row in cursor.fetchall():
 
             item = {
-                'id': row['id'],
-                'sku': row['sku'],
-                'artist_id': row['artist_id'],
-                'title': row['title'],
-                'year': row['year'],
-                'format': row['format'],
-                'price': decimal.Decimal(row['price'])
+                "id": row["id"],
+                "sku": row["sku"],
+                "artist_id": row["artist_id"],
+                "title": row["title"],
+                "year": row["year"],
+                "format": row["format"],
+                "price": decimal.Decimal(row["price"]),
             }
 
-            if row['cover_art'] != b'':
-                cover_art = b64encode(row['cover_art'])
-                item['cover_art'] = cover_art
+            if row["cover_art"] != b"":
+                cover_art = b64encode(row["cover_art"])
+                item["cover_art"] = cover_art
 
             with ddb_album.batch_writer() as batch:
                 batch.put_item(Item=item)
@@ -117,11 +112,11 @@ def process_track(info):
             with ddb_track.batch_writer() as batch:
                 batch.put_item(
                     Item={
-                        'id': row['id'],
-                        'album_id': row['album_id'],
-                        'name': row['name'],
-                        'length': row['length'],
-                        'number': row['number']
+                        "id": row["id"],
+                        "album_id": row["album_id"],
+                        "name": row["name"],
+                        "length": row["length"],
+                        "number": row["number"],
                     }
                 )
 
@@ -129,11 +124,13 @@ def process_track(info):
 
 
 def get_connection():
-    con = pymysql.connect(host='localhost',
-                          user='pinehead',
-                          password='pinehead',
-                          db='pinehead',
-                          cursorclass=pymysql.cursors.DictCursor)
+    con = pymysql.connect(
+        host="localhost",
+        user="pinehead",
+        password="pinehead",
+        db="pinehead",
+        cursorclass=pymysql.cursors.DictCursor,
+    )
     return con
 
 
@@ -143,7 +140,7 @@ def get_offsets(table_name: str, buckets: int = 1000):
         sql = f"SELECT count(id) from {table_name}"
         cursor.execute(sql)
         row = cursor.fetchone()
-        row_count = row['count(id)']
+        row_count = row["count(id)"]
     con.close()
     offsets = list(range(0, row_count, buckets))
     return offsets
