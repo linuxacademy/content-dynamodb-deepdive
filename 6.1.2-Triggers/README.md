@@ -34,3 +34,5 @@ DynamoDB table - `orders`
 
 ## Set `SENDER` Environment Variable
 
+In the Lambda function set `SENDER` to an email address that has been verified in SES, if you are still in the sandbox. Otherwise, use an email address of your choice.
+
