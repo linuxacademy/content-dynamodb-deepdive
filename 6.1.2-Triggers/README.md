@@ -10,9 +10,9 @@ Enable streams on the `orders` table.
 
 Create an IAM role with the following properties:
 
-Trusted entity – Lambda
-Permissions – `AWSLambdaDynamoDBExecutionRole`
-Role name – `lambda-dynamodb-streams-role`
+Trusted entity – Lambda  
+Permissions – `AWSLambdaDynamoDBExecutionRole`, `AmazonSESFullAccess`  
+Role name – `Lambda-OrderConfirmation-Role`
 
 `AWSLambdaDynamoDBExecutionRole` provides list and read access to DynamoDB streams and write permissions to CloudWatch logs.
 
@@ -35,4 +35,3 @@ DynamoDB table - `orders`
 ## Set `SENDER` Environment Variable
 
 In the Lambda function set `SENDER` to an email address that has been verified in SES, if you are still in the sandbox. Otherwise, use an email address of your choice.
-
