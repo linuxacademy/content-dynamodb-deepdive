@@ -29,7 +29,7 @@ def lambda_handler(event, context):
                 b = b + i["votes"]
 
         print(f"Candidate A total: {a}")
-        print(f"Candidate B total: {a}")
+        print(f"Candidate B total: {b}")
 
         table.update_item(
             Key={"segment": "Candidate A"},
