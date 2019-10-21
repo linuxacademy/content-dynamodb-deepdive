@@ -227,7 +227,7 @@ def worker(table, chunkStart, chunkEnd, status, data = None):
                 elif k == 'year':
                     row[k] = {'N': str(v)}
                 elif k == 'track_information':
-                    row[k] = {'SS': str(v)}
+                    row[k] = {'S': str(v)}
                 else:
                     if '.' in str(v):
                         try:
