@@ -282,6 +282,9 @@ class Album:
                 tracks=[],
             )
 
+            if "cover_art" in item:
+                album.cover_art = item["cover_art"].value
+
             album.artist = Artist.get_by_id(album.artist_id, ignore_albums=True)
 
             albums.append(album)
