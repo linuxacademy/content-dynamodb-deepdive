@@ -60,13 +60,13 @@ def main():
         results = fight(player1, player2)
         items = [
             {
-                'game': {'S': f'game{game}'},
+                'game': {'N': str(game)},
                 'player': {'S': player1},
                 'date': {'S': day},
                 'score': {'N': str(results[player1])}
             },
             {                
-                'game': {'S': f'game{game}'},
+                'game': {'N': str(game)},
                 'player': {'S': player2},
                 'date': {'S': day},
                 'score': {'N': str(results[player2])}
