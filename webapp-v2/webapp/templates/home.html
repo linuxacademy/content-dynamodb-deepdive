@@ -18,7 +18,7 @@
       {% for album in albums %}
       <div class="col-md-4">
         <div class="card mb-4 shadow-sm">
-          <a href="/album/{{ album.id }}">
+          <a href="/artist/{{ album.artist_name }}/album/{{ album.id }}">
             <img class="bd-placeholder-img card-img-top" src="{{ album.album_art }}"
               alt="Album art for {{ album.title }}" onerror="this.src='/static/img/no-albumart.svg';"/>
           </a>

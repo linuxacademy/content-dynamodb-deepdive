@@ -7,11 +7,12 @@
 
     {% if albums|length > 0 %}
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-8">
         <ul class="list-group">
           {% for album in albums %}
           <li class="list-group-item">
-              <a href="/artist/{{ album.artist_name }}/album/{{ album.id }}">{{ album.title }}</a>
+              <img style="width: 40px; margin-right: 10px" src="{{ album.album_art }}"
+          alt="Album art for {{ album.title }}" onerror="this.src='/static/img/no-albumart.svg';"/> <a href="/artist/{{ album.artist_name }}/album/{{ album.id }}">{{ album.title }}</a>
           </li>
           {% endfor %}
         </ul>

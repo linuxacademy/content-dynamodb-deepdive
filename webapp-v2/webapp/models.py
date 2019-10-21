@@ -257,25 +257,27 @@ class Album:
             KeyConditionExpression=Key("artist_name").eq(artist_name) & Key("id").eq(album_id)
         )
 
+        print(response)
+
         if response["Count"] == 0:
             return None
 
         item = response["Items"][0]
 
         album = Album(
-            None,
-            None,
-            item["artist_name"],
-            item["title"],
-            int(item["year"]),
-            item["format"],
-            item["price"],
-        )
+                item["id"],
+                None,
+                item["artist_name"],
+                item["title"],
+                item["year"],
+                item["format"],
+                item["price"],
+                cover_art=b"",
+                tracks=[],
+            )
 
         if "cover_art" in item:
             album.cover_art = item["cover_art"].value
-
-        print(album)
 
         print("Getting tracks for album id:", album_id)
 
@@ -314,7 +316,10 @@ class Album:
                 item["price"],
                 cover_art=b"",
                 tracks=[],
-            )            
+            )
+
+            if "cover_art" in item:
+                album.cover_art = item["cover_art"].value
 
             albums.append(album)
 
@@ -349,6 +354,9 @@ class Album:
                 item["format"],
                 item["price"],
             )
+
+            if "cover_art" in item:
+                album.cover_art = item["cover_art"].value
 
             albums.append(album)
 
@@ -424,7 +432,10 @@ class Album:
                 item["format"],
                 item["price"],
             )
-            print(album)
+
+            if "cover_art" in item:
+                album.cover_art = item["cover_art"].value
+
             albums.append(album)
 
         return albums, last_evaluated_key_json, prev_evaluated_key
@@ -454,7 +465,12 @@ class Album:
                 item["format"],
                 item["price"],
             )
-            print(album)
+
+            print(json.dumps(item))
+
+            if "cover_art" in item:
+                album.cover_art = item["cover_art"].value
+
             albums.append(album)
 
         return albums
@@ -491,6 +507,10 @@ class Album:
                 item["format"],
                 item["price"],
             )
+
+            if "cover_art" in item:
+                album.cover_art = item["cover_art"].value
+
             albums.append(album)
 
         return albums, None, None
@@ -524,6 +544,10 @@ class Album:
                 item["format"],
                 item["price"],
             )
+
+            if "cover_art" in item:
+                album.cover_art = item["cover_art"].value
+
             albums.append(album)
 
         return albums
@@ -606,7 +630,10 @@ class Artist:
                 item["format"],
                 item["price"],
             )
-            print(album)
+
+            if "cover_art" in item:
+                album.cover_art = item["cover_art"].value
+
             albums.append(album)
 
         return albums

@@ -125,7 +125,7 @@ def results():
 
     if entity_type == "artist":
         albums = Artist.find_by_name(term)
-        print(dir(albums))
+        # print(dir(albums))
         return render_template("artist-results.html", albums=albums, term=term)
     elif entity_type == "album":
         albums, last_evaluated_key, prev_evaluated_key = Album.find_by_title(
