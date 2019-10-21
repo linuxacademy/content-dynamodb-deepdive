@@ -3,7 +3,7 @@ import boto3
 
 print('Loading function...')
 def writestats(newrecord):
-    ddbClient = boto3.client('dynamodb', region_name='us-west-2')
+    ddbClient = boto3.client('dynamodb')
     
     try:
         currentStats = ddbClient.get_item(
@@ -47,7 +47,7 @@ def writestats(newrecord):
             statItem['wins'] = {'N': '1'}
         else:
             statItem['wins'] = {'N': '0'}
-            
+
         statItem['win_percent'] = {'S': f"{str(((int(currentStats['Item']['wins']['N']) + int(statItem['wins']['N'])) / int(statItem['games']['N']))*100)[:5]}%"}
 
         statItem['avg_score'] = {'N': str((int(currentStats['Item']['avg_score']['N']) + int(newrecord['score']['N'])) // 2)}
