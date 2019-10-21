@@ -5,13 +5,13 @@
   <div class="container">
     <h1>Search Results for artist: {{ term }}</h1>
 
-    {% if artists|length > 0 %}
+    {% if albums|length > 0 %}
     <div class="row">
       <div class="col-md-4">
         <ul class="list-group">
-          {% for artist in artists %}
+          {% for album in albums %}
           <li class="list-group-item">
-            <a href="/artist/{{ artist.id }}">{{ artist.name }}</a>
+              <a href="/artist/{{ album.artist_name }}/album/{{ album.id }}">{{ album.title }}</a>
           </li>
           {% endfor %}
         </ul>

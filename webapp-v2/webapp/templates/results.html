@@ -21,14 +21,14 @@
       {% for album in albums %}
       <div class="col-md-4">
         <div class="card mb-4 shadow-sm">
-          <a href="/album/{{ album.id }}">
+          <a href="/artist/{{ album.artist_name }}/album/{{ album.id }}">
             <img class="bd-placeholder-img card-img-top" src="{{ album.album_art }}"
               alt="Album art for {{ album.title }}" onerror="this.src='/static/img/no-albumart.svg';" />
           </a>
           <div class="card-body">
             <span class="card-text"><small>by <a
-                  href="/artist/{{ album.artist.id }}">{{ album.artist.name }}</a></small></span><br>
-            <a href="/album/{{ album.id }}">
+                  href="/artist/{{ album.artist_name }}">{{ album.artist_name }}</a></small></span><br>                  
+            <a href="/artist/{{ album.artist_name }}/album/{{ album.id }}">
               <span class="card-text">{{ album.title }}</small></span><br>
             </a>
             <span class="card-text"><small>{{album.year }} - {{album.format}}</small></span><br>

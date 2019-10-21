@@ -12,7 +12,7 @@
 
         <div class="card-body">
           <span class="card-text"><small>by <a
-                href="/artist/{{ album.artist.id }}">{{ album.artist.name }}</a></small></span><br>
+                href="/artist/{{ album.artist_name }}">{{ album.artist_name }}</a></small></span><br>
           <span class="card-text">{{ album.title }}</small></span><br>
           <span class="card-text"><small>{{album.year }} - {{album.format}}</small></span><br>
           <span class="card-text">{{ "$%.2f"|format(album.price) }}</span>

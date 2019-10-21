@@ -1,0 +1,124 @@
+{
+  "TableName": "pinehead",
+  "BillingMode": "PAY_PER_REQUEST",
+  "KeySchema": [
+    {
+      "AttributeName": "artist_name",
+      "KeyType": "HASH"
+    },
+    {
+      "AttributeName": "id",
+      "KeyType": "RANGE"
+    }
+  ],
+  "AttributeDefinitions": [
+    {
+      "AttributeName": "artist_name",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "id",
+      "AttributeType": "N"
+    },
+    {
+      "AttributeName": "title",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "year",
+      "AttributeType": "N"
+    },
+    {
+      "AttributeName": "format",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "price",
+      "AttributeType": "N"
+    }
+  ],
+  "LocalSecondaryIndexes": [
+    {
+      "IndexName": "artist_name-title-index",
+      "KeySchema": [
+        {
+          "AttributeName": "artist_name",
+          "KeyType": "HASH"
+        },
+        {
+          "AttributeName": "title",
+          "KeyType": "RANGE"
+        }
+      ],
+      "Projection": {
+        "ProjectionType": "ALL"
+      }
+    },
+    {
+      "IndexName": "artist_name-year-index",
+      "KeySchema": [
+        {
+          "AttributeName": "artist_name",
+          "KeyType": "HASH"
+        },
+        {
+          "AttributeName": "year",
+          "KeyType": "RANGE"
+        }
+      ],
+      "Projection": {
+        "ProjectionType": "ALL"
+      }
+    }
+  ],
+  "GlobalSecondaryIndexes": [
+    {
+      "IndexName": "format-index",
+      "KeySchema": [
+        {
+          "AttributeName": "format",
+          "KeyType": "HASH"
+        }
+      ],
+      "Projection": {
+        "ProjectionType": "ALL"
+      }
+    },
+    {
+      "IndexName": "price-index",
+      "KeySchema": [
+        {
+          "AttributeName": "price",
+          "KeyType": "HASH"
+        }
+      ],
+      "Projection": {
+        "ProjectionType": "ALL"
+      }
+    },
+    {
+      "IndexName": "title-index",
+      "KeySchema": [
+        {
+          "AttributeName": "title",
+          "KeyType": "HASH"
+        }
+      ],
+      "Projection": {
+        "ProjectionType": "ALL"
+      }
+    },
+    {
+      "IndexName": "year-index",
+      "KeySchema": [
+        {
+          "AttributeName": "year",
+          "KeyType": "HASH"
+        }
+      ],
+      "Projection": {
+        "ProjectionType": "ALL"
+      }
+    }
+  ]
+}
