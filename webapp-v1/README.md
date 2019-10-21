@@ -38,7 +38,7 @@ Run:
 
 ```sh
 docker run -it -p 5000:5000 \
-  -e S3_PREFIX='https://ddb-deep-dive-dev.s3-us-west-2.amazonaws.com/ \
+  -e S3_PREFIX='https://dynamodbdeepdive.s3.amazonaws.com/' \
   -e AWS_DEFAULT_REGION='us-east-1' \
   -e AWS_ACCESS_KEY_ID='AKIAxxxxxxxxxx' \
   -e AWS_SECRET_ACCESS_KEY='xxxxxxxxxxxxxxxxxxxxxxxxxxxxx' \

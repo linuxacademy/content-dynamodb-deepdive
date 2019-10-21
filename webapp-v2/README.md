@@ -45,3 +45,12 @@ aws configure set default.region us-east-1
 pip3 install --user boto3
 curl https://raw.githubusercontent.com/linuxacademy/content-dynamodb-deepdive/master/labs/bootstrap/tablebootstrap.py | python3 /dev/stdin -s 2 -f s3://dynamodblabs/pinehead_records_s2.csv
 ```
+
+## Running the web application
+
+```sh
+cd webapp-v2
+pipenv install
+pipenv shell
+./run.sh
+```
