@@ -444,7 +444,7 @@ class Album:
     def find_by_artist_and_title(artist, title):
         print(f"Finding albums with artist={artist} and title={title}")
 
-        # Uses GSI artist_name-title-index
+        # Uses LSI artist_name-title-index
         response = pinehead_table.query(
             IndexName="artist_name-title-index",
             KeyConditionExpression=Key("artist_name").eq(artist),
