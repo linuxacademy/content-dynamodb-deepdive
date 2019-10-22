@@ -15,18 +15,7 @@ response = client.create_table(
     AttributeDefinitions=[
         {"AttributeName": "album", "AttributeType": "S"},
         {"AttributeName": "artist", "AttributeType": "S"},
-        # {"AttributeName": "order_count", "AttributeType": "N"},
     ],
-    # LocalSecondaryIndexes=[
-    #     {
-    #         "IndexName": "order_count-index",
-    #         "KeySchema": [
-    #             {"AttributeName": "album", "KeyType": "HASH"},
-    #             {"AttributeName": "order_count", "KeyType": "RANGE"},
-    #         ],
-    #         "Projection": {"ProjectionType": "ALL"},
-    #     }
-    # ],
     BillingMode="PAY_PER_REQUEST",
 )
 print(response)
