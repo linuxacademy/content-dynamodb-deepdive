@@ -23,16 +23,21 @@ def lambda_handler(event, context):
         queue.attributes.get("ApproximateNumberOfMessages"),
     )
 
-    for message in queue.receive_messages(MaxNumberOfMessages=int(MAX_QUEUE_MESSAGES)):
-        item = json.loads(message.body, parse_float=decimal.Decimal)
-        table = dynamodb.Table(DYNAMODB_TABLE)
+    while True:
+        for message in queue.receive_messages(
+            MaxNumberOfMessages=int(MAX_QUEUE_MESSAGES)
+        ):
+            item = json.loads(message.body, parse_float=decimal.Decimal)
+            table = dynamodb.Table(DYNAMODB_TABLE)
 
-        try:
-            response = table.put_item(Item=item)
-            print("Wrote message to DynamoDB:", json.dumps(response))
-            message.delete()
-            print("Deleted message:", message.message_id)
-        except ClientError as e:
-            print(f'{e.response["Error"]["Code"]}: {e.response["Error"]["Message"]}')
-        else:
-            print(response)
+            try:
+                response = table.put_item(Item=item)
+                print("Wrote message to DynamoDB:", json.dumps(response))
+                message.delete()
+                print("Deleted message:", message.message_id)
+            except ClientError as e:
+                print(
+                    f'{e.response["Error"]["Code"]}: {e.response["Error"]["Message"]}'
+                )
+            else:
+                print(response)

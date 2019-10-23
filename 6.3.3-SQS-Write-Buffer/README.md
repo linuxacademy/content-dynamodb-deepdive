@@ -10,8 +10,10 @@ aws dynamodb create-table --table-name orders \
                           AttributeName=timestamp,AttributeType=N \
   --key-schema AttributeName=id,KeyType=HASH \
                AttributeName=timestamp,KeyType=RANGE \
-  --billing-mode=PAY_PER_REQUEST
+  --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1
 ```
+
+**Note:** We deliberately set RCU/WCU=1 to induce throttling. If your `orders` table already exists, you must change the provisioned throughput to match the above.
 
 ## Create SQS Queue
 
