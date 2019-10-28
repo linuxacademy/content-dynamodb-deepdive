@@ -88,12 +88,12 @@ class DynamoDB:
         
         return
 
-    def createTable(self, tableName, attributes, keySchema, billingMode, clean, provisionedThroughput = {}, LSI = None, GSI = None ):
+    def createTable(self, tableName, attributes, keySchema, billingMode, provisionedThroughput = {}, LSI = None, GSI = None ):
         print(f'[!]: Creating {tableName}')
-        if clean:
-            if tableName in self.listTables():
-                print(f'[!]: Cleanup enabled, deleting existing table {tableName}')
-                self.deleteTable(tableName)
+            
+        if tableName in self.listTables():
+            print(f'[!]: Cleanup enabled, deleting existing table {tableName}')
+            self.deleteTable(tableName)
 
         
         try:
@@ -295,7 +295,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('-p', '--processes', type = int, default = 10, help = "Number of processes to use")
     ap.add_argument('-s', '--schema', required = True, choices = ['1', '2', '3'], help = 'Schema to migrate to (1, 2 or 3)')
-    ap.add_argument('-c', '--clean', choices = ['True', 'False'], default = 'True', help = 'Specify if existing tables should be deleted')
+    ap.add_argument('-c', '--clean', choices = ['True', 'False'], required = True, help = 'Specify if existing tables should be deleted')
     ap.add_argument('-f', '--file', help = 'Location of csv file(s) if source is csv')
     args = vars(ap.parse_args())
 
@@ -303,6 +303,7 @@ def main():
     processPool = Pool(processes = workerProcesses)
     schema = args['schema']
     clean = bool(args['clean'])
+    print(f'Clean status: {clean}')
     tableArgs = []
 
     fileLocations = args['file']
@@ -343,7 +344,8 @@ def main():
             ddbAttributes = [{'AttributeName': 'id','AttributeType':'N'}]
             ddbKeySchema = [{'AttributeName': 'id', 'KeyType': 'HASH'}]
 
-            ddb.createTable(key, ddbAttributes, ddbKeySchema, 'PAY_PER_REQUEST', clean)
+            if clean:
+                ddb.createTable(key, ddbAttributes, ddbKeySchema, 'PAY_PER_REQUEST')
         
         elif schema == '2':
             print("Loading Schema 2")
@@ -432,8 +434,9 @@ def main():
                     }
                 }
             ]
-        
-            ddb.createTable(key, ddbAttributes, ddbKeySchema, 'PAY_PER_REQUEST', clean, GSI = ddbGSI, LSI = ddbLSI)
+            
+            if clean:
+                ddb.createTable(key, ddbAttributes, ddbKeySchema, 'PAY_PER_REQUEST', clean, GSI = ddbGSI, LSI = ddbLSI)
         
         elif schema == '3':
             if not s3TableCreated:
@@ -507,9 +510,10 @@ def main():
                         }
                     }
                 ]
-            
-                ddb.createTable('pinehead_records_s3', ddbAttributes, ddbKeySchema, 'PAY_PER_REQUEST', clean, GSI = ddbGSI, LSI = ddbLSI)
-                s3TableCreated = True
+
+                if clean:
+                    ddb.createTable('pinehead_records_s3', ddbAttributes, ddbKeySchema, 'PAY_PER_REQUEST', clean, GSI = ddbGSI, LSI = ddbLSI)
+                    s3TableCreated = True
             else:
                 print("Needful already done for pinehead_records_s3 table creation! ONWARD!!! \\m/")
 
