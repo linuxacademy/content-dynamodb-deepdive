@@ -6,7 +6,6 @@ import boto3
 from botocore.exceptions import ClientError
 
 QUEUE_NAME = os.environ["QUEUE_NAME"]
-MAX_QUEUE_MESSAGES = os.environ["MAX_QUEUE_MESSAGES"]
 DYNAMODB_TABLE = os.environ["DYNAMODB_TABLE"]
 
 sqs = boto3.resource("sqs")
@@ -14,8 +13,6 @@ dynamodb = boto3.resource("dynamodb")
 
 
 def lambda_handler(event, context):
-
-    # Receive messages from SQS queue
     queue = sqs.get_queue_by_name(QueueName=QUEUE_NAME)
 
     print(
@@ -24,9 +21,7 @@ def lambda_handler(event, context):
     )
 
     while True:
-        for message in queue.receive_messages(
-            MaxNumberOfMessages=int(MAX_QUEUE_MESSAGES)
-        ):
+        for message in queue.receive_messages(MaxNumberOfMessages=10):
             item = json.loads(message.body, parse_float=decimal.Decimal)
             table = dynamodb.Table(DYNAMODB_TABLE)
 
