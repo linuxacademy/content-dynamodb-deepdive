@@ -1,0 +1,47 @@
+{
+    "rules": [
+        {
+            "rule-type": "selection",
+            "rule-id": "1",
+            "rule-name": "1",
+            "object-locator": {
+                "schema-name": "pinehead",
+                "table-name": "migration"
+            },
+            "rule-action": "include"
+        },
+        {
+            "rule-type": "object-mapping",
+            "rule-id": "2",
+            "rule-name": "2",
+            "rule-action": "map-record-to-record",
+            "object-locator": {
+                "schema-name": "pinehead",
+                "table-name": "migration"
+            },
+            "target-table-name": "pinehead_records_s2",
+            "mapping-parameters": {
+                "partition-key-name": "artist_name",
+                "sort-key-name": "id",
+                "exclude-columns": [
+                    "artist_name",
+                    "id"
+                ],
+                "attribute-mappings": [
+                    {
+                        "target-attribute-name": "artist_name",
+                        "attribute-type": "scalar",
+                        "attribute-sub-type": "string",
+                        "value": "${artist_name}"
+                    },
+                    {
+                        "target-attribute-name": "id",
+                        "attribute-type": "scalar",
+                        "attribute-sub-type": "number",
+                        "value": "${id}"
+                    }
+                ]
+            }
+        }
+    ]
+}
