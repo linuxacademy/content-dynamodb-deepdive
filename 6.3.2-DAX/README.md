@@ -21,3 +21,20 @@
 
 Launching a cluster may take several minutes. Note the cluster's **endpoint URL**. You will use this in your code.
 
+## Benchmarking DAX
+
+Run `pipenv install` and `pipenv shell` to configure a virtualenv with dependencies.
+
+Alternatively, run `pip3 install --user amazon-dax-client boto3`.
+
+### Without DAX
+
+```sh
+./dax.py -t pinehead_records_s2 -k Surrounded
+```
+
+### With DAX
+
+```sh
+./dax.py -t pinehead_records_s2 -k Surrounded -e your-endpoint-here.clustercfg.dax.use1.cache.amazonaws.com:8111
+```
