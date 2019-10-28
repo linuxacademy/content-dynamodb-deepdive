@@ -295,14 +295,14 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('-p', '--processes', type = int, default = 10, help = "Number of processes to use")
     ap.add_argument('-s', '--schema', required = True, choices = ['1', '2', '3'], help = 'Schema to migrate to (1, 2 or 3)')
-    ap.add_argument('-c', '--clean', choices = ['True', 'False'], required = True, help = 'Specify if existing tables should be deleted')
+    ap.add_argument('-c', '--clean', type= bool, action = 'store_true', help = 'Specify if existing tables should be deleted')
     ap.add_argument('-f', '--file', help = 'Location of csv file(s) if source is csv')
     args = vars(ap.parse_args())
 
     workerProcesses = args['processes']
     processPool = Pool(processes = workerProcesses)
     schema = args['schema']
-    clean = bool(args['clean'])
+    clean = args['clean']
     print(f'Clean status: {clean}')
     tableArgs = []
 
