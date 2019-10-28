@@ -181,18 +181,10 @@ class DynamoDB:
             print(f'[-]: Exception encountered tries {self.batchTrys}\n     {e}')
             return e
 
-def worker(table, chunkStart, chunkEnd, status, data = None):
+def worker(table, chunkStart, chunkEnd, status, data, schema3File):
     ddb = DynamoDB()
     procName = current_process().name
-    '''typeConversion = {
-            'int': 'N',
-            'decimal.Decimal': 'N',
-            'Decimal': 'N',
-            'float': 'N',
-            'str': 'S',
-            'bytes': 'B'
-        }
-    '''
+
     dataToPut = [ data[i * 25:(i +1) * 25] for i in range((len(data) + 25 -1) // 25) ]
 
     for rowList in dataToPut:
@@ -208,13 +200,24 @@ def worker(table, chunkStart, chunkEnd, status, data = None):
             }
 
             keysToDel = []
+            if schema3File != None:
+                if 'artist_name' in row.keys():
+                    row['name_title'] = row['artist_name']
+                    del row['artist_name']
+                if 'name' in row.keys():
+                    row['name_title'] = row['name']
+                    del row['name']
+                if 'title' in row.keys():
+                    row['name_title'] = row['title']
+                    del row['title']
 
             for k,v in row.items():
                 batchDataSize += getsizeof(v)
-
                 if v in {'Null', 'NULL', None, ''}:
                     keysToDel.append(k)
                 elif k == 'artist_name':
+                    row[k] = {'S': str(v)}
+                elif k == 'name':
                     row[k] = {'S': str(v)}
                 elif k == 'id':
                     row[k] = {'N': str(v)}
@@ -227,6 +230,8 @@ def worker(table, chunkStart, chunkEnd, status, data = None):
                 elif k == 'year':
                     row[k] = {'N': str(v)}
                 elif k == 'track_information':
+                    row[k] = {'S': str(v)}
+                elif k == 'name_title':
                     row[k] = {'S': str(v)}
                 else:
                     if '.' in str(v):
@@ -241,6 +246,9 @@ def worker(table, chunkStart, chunkEnd, status, data = None):
                             row[k] = {'N': str(v)}
                         except ValueError:
                             row[k] = {'S': str(v)}
+
+            if schema3File != None:
+                row['type'] = {'S': str(schema3File)}
 
             for key in keysToDel:
                 del row[key]
@@ -278,8 +286,10 @@ def worker(table, chunkStart, chunkEnd, status, data = None):
             except Exception as e:
                 print(f'[-]: {procName} Exception encountered - {e}')
                 print(row)
-
-        status[table] += 25
+        if schema3File != None:
+            status[schema3File] += 25
+        else:
+            status[table] += 25
 
 def main():
     ap = argparse.ArgumentParser()
@@ -323,16 +333,20 @@ def main():
 
             csvData[fileKey] = csvFile.convertToObj('json')
 
+    s3TableCreated = False
+
     for key in csvData.keys():
-        print(f'Doing the needful for {key}')
+        print(f'Doing the needful for file {key}')
         status[key] = 0
         if schema == '1':
+            print("Loading Schema 1")
             ddbAttributes = [{'AttributeName': 'id','AttributeType':'N'}]
             ddbKeySchema = [{'AttributeName': 'id', 'KeyType': 'HASH'}]
 
             ddb.createTable(key, ddbAttributes, ddbKeySchema, 'PAY_PER_REQUEST', clean)
         
         elif schema == '2':
+            print("Loading Schema 2")
             ddbAttributes = [{'AttributeName': 'artist_name', 'AttributeType': 'S'},{'AttributeName': 'id', 'AttributeType': 'N'},{'AttributeName': 'title', 'AttributeType': 'S'},{'AttributeName': 'year', 'AttributeType': 'N'},{'AttributeName': 'format', 'AttributeType': 'S'},{'AttributeName': 'price', 'AttributeType': 'N'}]
             ddbKeySchema = [{'AttributeName': 'artist_name', 'KeyType': 'HASH'}, {'AttributeName': 'id', 'KeyType': 'RANGE'}]
             ddbLSI = [
@@ -420,6 +434,84 @@ def main():
             ]
         
             ddb.createTable(key, ddbAttributes, ddbKeySchema, 'PAY_PER_REQUEST', clean, GSI = ddbGSI, LSI = ddbLSI)
+        
+        elif schema == '3':
+            if not s3TableCreated:
+                print("Loading Schema 3")
+                ddbAttributes = [{'AttributeName': 'type', 'AttributeType': 'S'},{'AttributeName': 'id', 'AttributeType': 'N'},{'AttributeName': 'name_title', 'AttributeType': 'S'},{'AttributeName': 'year', 'AttributeType': 'N'},{'AttributeName': 'format', 'AttributeType': 'S'},{'AttributeName': 'price', 'AttributeType': 'N'}]
+                ddbKeySchema = [{'AttributeName': 'type', 'KeyType': 'HASH'}, {'AttributeName': 'id', 'KeyType': 'RANGE'}]
+                ddbLSI = [
+                    {
+                        'IndexName': 'type-name_title-index',
+                        'KeySchema': [
+                            {
+                                'AttributeName': 'type',
+                                'KeyType': 'HASH'
+                            },{
+                                'AttributeName': 'name_title',
+                                'KeyType': 'RANGE'
+                            }
+                        ],
+                        'Projection': {
+                            'ProjectionType': 'ALL'
+                        }
+                    }
+                ]
+                ddbGSI = [
+                    {
+                        'IndexName': 'format-index',
+                        'KeySchema': [
+                            {
+                                'AttributeName': 'format',
+                                'KeyType': 'HASH'
+                            }
+                        ],
+                        'Projection': {
+                            'ProjectionType': 'ALL'
+                        }
+                    },
+                    {
+                        'IndexName': 'price-index',
+                        'KeySchema': [
+                            {
+                                'AttributeName': 'price',
+                                'KeyType': 'HASH'
+                            }
+                        ],
+                        'Projection': {
+                            'ProjectionType': 'ALL'
+                        }
+                    },
+                    {
+                        'IndexName': 'name_title-index',
+                        'KeySchema': [
+                            {
+                                'AttributeName': 'name_title',
+                                'KeyType': 'HASH'
+                            }
+                        ],
+                        'Projection': {
+                            'ProjectionType': 'ALL'
+                        }
+                    },
+                    {
+                        'IndexName': 'year-index',
+                        'KeySchema': [
+                            {
+                                'AttributeName': 'year',
+                                'KeyType': 'HASH'
+                            }
+                        ],
+                        'Projection': {
+                            'ProjectionType': 'ALL'
+                        }
+                    }
+                ]
+            
+                ddb.createTable('pinehead_records_s3', ddbAttributes, ddbKeySchema, 'PAY_PER_REQUEST', clean, GSI = ddbGSI, LSI = ddbLSI)
+                s3TableCreated = True
+            else:
+                print("Needful already done for pinehead_records_s3 table creation! ONWARD!!! \\m/")
 
         itemCount = len(csvData[key])
         chunkSize = itemCount // workerProcesses
@@ -433,7 +525,15 @@ def main():
             chunkStart = chunkSize * i
             chunkEnd = chunkSize * (i + 1)
             chunk = csvData[key][chunkStart:chunkEnd]
-            tableArgs.append((key, 0, 0, status, chunk))
+            
+            if schema == '3':
+                tablename = 'pinehead_records_s3'
+                schema3 = key
+            else:   
+                tablename = key
+                schema3 = None
+
+            tableArgs.append((tablename, 0, 0, status, chunk, schema3))
             
     random.shuffle(tableArgs)
     print('[!]: Starting Migration')
