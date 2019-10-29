@@ -37,6 +37,8 @@ Runtime: Python 3.7
 Function code: Upload the `ddb2es.zip` file created in the previous step.
 Execution role: Use the role created in the previous step.
 
+Configure the Lambda function for your VPC. Select all subnets. Ensure you select a security group with outbound access to 0.0.0.0/0 for all protocols.
+
 ## Configure the DynamoDB Trigger
 
 - Table: `pinehead_records_s3`
@@ -52,7 +54,7 @@ This will create the v3 data model in your account (the `-c False` flag will pre
 ```sh
 aws configure set default.region us-east-1
 pip3 install --user boto3
-curl https://raw.githubusercontent.com/linuxacademy/content-dynamodb-deepdive/master/labs/bootstrap/tablebootstrap.py | python3 /dev/stdin -c False -s 3 -f s3://dynamodblabs/pinehead_records_s3.csv
+curl https://raw.githubusercontent.com/linuxacademy/content-dynamodb-deepdive/master/labs/bootstrap/tablebootstrap.py | python3 /dev/stdin -s 3 -f s3://dynamodblabs/artist.csv,s3://dynamodblabs/album.csv,s3://dynamodblabs/track.csv
 ```
 
 ## Query Elasticsearch
@@ -64,3 +66,19 @@ ssh -i ~/.ssh/your-key.pem ec2-user@your-ec2-instance-public-ip -N -L 9200:vpc-y
 ```
 
 Navigate to <https://localhost:9200/_plugin/kibana/> in your web browser. You might need to acknowledge a security exception.
+
+### Create Index Pattern
+
+1. Define an index pattern of `*` will match the `lambda-index` index. Select **Next Step**.
+
+2. Select **I don't want to use the Time Filter**.
+
+3. Select **Create index pattern**.
+
+### Discover
+
+Search using [KQL](https://www.elastic.co/guide/en/kibana/current/kuery-query.html) syntax. For example, a partial match on track name containing the string `Intro`:
+
+```text
+type.S:track and name_title.S:Intro
+```
