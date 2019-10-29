@@ -49,7 +49,7 @@ Configure the Lambda function for your VPC. Select all subnets. Ensure you selec
 
 ## Import Data into DynamoDB
 
-This will create the v3 data model in your account (the `-c False` flag will prevent the existing table from being overwritten):
+This will create the v3 data model in your account (the `-c` or `--clean` flag will delete the existing table, if specified):
 
 ```sh
 aws configure set default.region us-east-1
