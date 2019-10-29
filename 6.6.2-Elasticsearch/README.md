@@ -37,7 +37,9 @@ Runtime: Python 3.7
 Function code: Upload the `ddb2es.zip` file created in the previous step.
 Execution role: Use the role created in the previous step.
 
-Configure the Lambda function for your VPC. Select all subnets. Ensure you select a security group with outbound access to 0.0.0.0/0 for all protocols.
+Configure basic settings for 1024 MB memory and 30 sec timeout.
+
+Configure the Lambda function for your VPC. Select all subnets. Ensure you select a security group with outbound access to 0.0.0.0/0 for all ports.
 
 ## Configure the DynamoDB Trigger
 
@@ -74,6 +76,10 @@ Navigate to <https://localhost:9200/_plugin/kibana/> in your web browser. You mi
 2. Select **I don't want to use the Time Filter**.
 
 3. Select **Create index pattern**.
+
+### Visualize
+
+The **Visualize / Create** screen will show you the `Count` metric, indicating the number of items in the index. This value should continue to grow until the Lambda function has processes the entire DynamoDB stream. You can change this to `Unique Count` on the `_id` field.
 
 ### Discover
 
