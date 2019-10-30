@@ -1,7 +1,6 @@
 {
   "Version": "2012-10-17",
   "Statement": [{
-    "Sid": "LimitAccessToSpecificAttributes",
     "Effect": "Allow",
     "Action": [
       "dynamodb:GetItem",
@@ -10,7 +9,7 @@
       "dynamodb:Scan"
     ],
     "Resource": [
-      "arn:aws:dynamodb:us-east-1:408073669315:table/pinehead_records_s3"
+      "arn:aws:dynamodb:us-east-1:123456789012:table/pinehead_records_s3"
     ],
     "Condition": {
       "ForAllValues:StringEquals": {
@@ -24,9 +23,6 @@
           "sku",
           "year"
         ]
-      },
-      "StringEqualsIfExists": {
-        "dynamodb:Select": "SPECIFIC_ATTRIBUTES"
       }
     }
   }]

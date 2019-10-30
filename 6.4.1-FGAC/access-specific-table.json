@@ -28,7 +28,7 @@
               "dynamodb:Update*",
               "dynamodb:PutItem"
           ],
-          "Resource": "arn:aws:dynamodb:*:*:table/pinehead_records_s3"
+          "Resource": "arn:aws:dynamodb:us-east-1:123456789012:table/pinehead_records_s3"
       }
   ]
 }
