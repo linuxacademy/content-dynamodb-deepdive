@@ -2,9 +2,18 @@
 
 ## Create Elasticsearch Domain
 
+**Deployment type**: `Development and testing` is sufficient
+
 **Elasticsearch domain name** can be anything you like; this is not an internet domain name.
 
-Enable a security group with ports 22/tcp and 443/tcp open inbound.
+Select all other defaults for instance type, number of instances, etc.
+
+### Network Configuration
+
+- Choose **VPC Access**
+- Choose a subnet
+- Enable a security group with ports 22/tcp and 443/tcp open inbound.
+- Set domain access policy to **Do not require signing request with IAM credential**.
 
 Domain initialization takes about 10 minutes. You cannot load data or run queries against your domain until the initialization is complete. The domain status will change to Active as soon as your domain is ready to use.
 
