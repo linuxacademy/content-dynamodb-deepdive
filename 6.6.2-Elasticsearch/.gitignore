@@ -1,2 +1,3 @@
 ddb2es/*
+!/ddb2es/lambda_function.py
 *.zip
