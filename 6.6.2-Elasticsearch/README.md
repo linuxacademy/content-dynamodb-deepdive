@@ -19,32 +19,36 @@ Enable streams for "New and old images"
 
 ## Create IAM Execution Role for Lambda Function
 
+Role name: `Lambda-ddb2es-Role`
+
 Use policy in `lambda-role.json` with `Lambda` as the trusted entity.
 
 ## Package up the Lambda Function
 
 ```sh
-cd ddb2es
-pip install requests -t .
-pip install requests_aws4auth -t .
+cd content-dynamodb-deepdive/6.6.2-Elasticsearch/ddb2es
+pip3 install requests -t .
+pip3 install requests_aws4auth -t .
 zip -r ../ddb2es.zip *
 ```
 
 ## Create Lambda Function
 
-Name: `ddb2es`
-Runtime: Python 3.7
-Function code: Upload the `ddb2es.zip` file created in the previous step.
-Execution role: Use the role created in the previous step.
+Name: `ddb2es`  
+Runtime: Python 3.7  
+Function code: Upload the `ddb2es.zip` file created in the previous step.  
+Execution role: Use the role `Lambda-ddb2es-Role` created in the previous step.  
 
-Configure basic settings for 1024 MB memory and 30 sec timeout.
+- Configure basic settings for 1024 MB memory and 30 sec timeout.
 
-Configure the Lambda function for your VPC. Select all subnets. Ensure you select a security group with outbound access to 0.0.0.0/0 for all ports.
+- Configure the Lambda function for your VPC.
+  - Select all subnets. 
+  - Ensure you select a security group with outbound access to `0.0.0.0/0` for all ports.
 
 ## Configure the DynamoDB Trigger
 
 - Table: `pinehead_records_s3`
-- Batch size: 100
+- Batch size: 1000 (this is the maximum)
 - Starting position: Trim horizon
 
 **Trim horizon** will start reading at the oldest record in the shard.
@@ -53,8 +57,11 @@ Configure the Lambda function for your VPC. Select all subnets. Ensure you selec
 
 This will create the v3 data model in your account (the `-c` or `--clean` flag will delete the existing table, if specified):
 
+Make sure you use have at least 10 GB free memory for the bootstrap script to run without errors. This runs most quickly on an EC2 instance in the same region as the target DynamoDB table.
+
 ```sh
 aws configure set default.region us-east-1
+sudo yum install python3 -y
 pip3 install --user boto3
 curl https://raw.githubusercontent.com/linuxacademy/content-dynamodb-deepdive/master/labs/bootstrap/tablebootstrap.py | python3 /dev/stdin -s 3 -f s3://dynamodblabs/artist.csv,s3://dynamodblabs/album.csv,s3://dynamodblabs/track.csv
 ```
@@ -62,6 +69,10 @@ curl https://raw.githubusercontent.com/linuxacademy/content-dynamodb-deepdive/ma
 ## Query Elasticsearch
 
 You may create an SSH tunnel to simulate a local install of Elasticsearch:
+
+<!--
+ssh -i ~/aws/aws-cloudshare.pem ec2-user@3.231.202.192 -N -L 9200:vpc-pinehead-nbtscv4abalj7nmsikj4bwaztm.us-east-1.es.amazonaws.com:443
+-->
 
 ```sh
 ssh -i ~/.ssh/your-key.pem ec2-user@your-ec2-instance-public-ip -N -L 9200:vpc-your-amazon-es-domain.region.es.amazonaws.com:443
