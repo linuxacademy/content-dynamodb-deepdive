@@ -1,260 +1,300 @@
 { "pinehead_records_s2": 
     [
         {
-            "year": {
-                "N": "1978"
-            },
-            "artist_name": {
-                "S": "Neil Diamond"
-            },
-            "price": {
-                "N": "16.23"
-            },
-            "id": {
-                "N": "61519"
-            },
-            "album_art": {
-                "S": "/albumart/9/1/5/1/6/61519.jpg"
-            },
-            "format": {
-                "S": "Vinyl"
-            },
-            "title": {
-                "S": "Forever in Blue Jeans"
+            "PutRequest": {
+                "Item": {
+                    "year": {
+                        "N": "1978"
+                    },
+                    "artist_name": {
+                        "S": "Neil Diamond"
+                    },
+                    "price": {
+                        "N": "16.23"
+                    },
+                    "id": {
+                        "N": "61519"
+                    },
+                    "album_art": {
+                        "S": "/albumart/9/1/5/1/6/61519.jpg"
+                    },
+                    "format": {
+                        "S": "Vinyl"
+                    },
+                    "title": {
+                        "S": "Forever in Blue Jeans"
+                    }
+                }
             }
         },
         {
-            "year": {
-                "N": "1974"
-            },
-            "track_information": {
-                "S": "[{\"name\": \"I’ve Been This Way Before\", \"length\": \"228533\", \"number\": \"A1\"},{\"name\": \"Rosemary’s Wine\", \"length\": \"162160\", \"number\": \"A2\"},{\"name\": \"Lady Magdalene\", \"length\": \"421200\", \"number\": \"A3\"},{\"name\": \"The Last Picasso\", \"length\": \"267440\", \"number\": \"A4\"},{\"name\": \"Longfellow Serenade\", \"length\": \"233426\", \"number\": \"B1\"},{\"name\": \"Yes I Will\", \"length\": \"279373\", \"number\": \"B2\"},{\"name\": \"Reggae Strut\", \"length\": \"230666\", \"number\": \"B3\"},{\"name\": \"The Gift of Song\", \"length\": \"142200\", \"number\": \"B4\"}]"
-            },
-            "artist_name": {
-                "S": "Neil Diamond"
-            },
-            "price": {
-                "N": "12.16"
-            },
-            "id": {
-                "N": "109849"
-            },
-            "album_art": {
-                "S": "/albumart/9/4/8/9/0/1/109849.jpg"
-            },
-            "format": {
-                "S": "12\" Vinyl"
-            },
-            "title": {
-                "S": "Serenade"
+            "PutRequest": {
+                "Item": {
+                    "year": {
+                        "N": "1974"
+                    },
+                    "track_information": {
+                        "S": "[{\"name\": \"I’ve Been This Way Before\", \"length\": \"228533\", \"number\": \"A1\"},{\"name\": \"Rosemary’s Wine\", \"length\": \"162160\", \"number\": \"A2\"},{\"name\": \"Lady Magdalene\", \"length\": \"421200\", \"number\": \"A3\"},{\"name\": \"The Last Picasso\", \"length\": \"267440\", \"number\": \"A4\"},{\"name\": \"Longfellow Serenade\", \"length\": \"233426\", \"number\": \"B1\"},{\"name\": \"Yes I Will\", \"length\": \"279373\", \"number\": \"B2\"},{\"name\": \"Reggae Strut\", \"length\": \"230666\", \"number\": \"B3\"},{\"name\": \"The Gift of Song\", \"length\": \"142200\", \"number\": \"B4\"}]"
+                    },
+                    "artist_name": {
+                        "S": "Neil Diamond"
+                    },
+                    "price": {
+                        "N": "12.16"
+                    },
+                    "id": {
+                        "N": "109849"
+                    },
+                    "album_art": {
+                        "S": "/albumart/9/4/8/9/0/1/109849.jpg"
+                    },
+                    "format": {
+                        "S": "12\" Vinyl"
+                    },
+                    "title": {
+                        "S": "Serenade"
+                    }
+                }
             }
         },
         {
-            "year": {
-                "N": "1984"
-            },
-            "track_information": {
-                "S": "[{\"name\": \"Turn Around\", \"length\": \"225760\", \"number\": \"A1\"},{\"name\": \"Primitive\", \"length\": \"266840\", \"number\": \"A2\"},{\"name\": \"Fire on the Tracks\", \"length\": \"187800\", \"number\": \"A3\"},{\"name\": \"Brooklyn on a Saturday Night\", \"length\": \"221426\", \"number\": \"A4\"},{\"name\": \"Sleep With Me Tonight\", \"length\": \"222506\", \"number\": \"A5\"},{\"name\": \"Crazy\", \"length\": \"221200\", \"number\": \"A6\"},{\"name\": \"My Time With You\", \"length\": \"269533\", \"number\": \"B1\"},{\"name\": \"Love's Own Song\", \"length\": \"212733\", \"number\": \"B2\"},{\"name\": \"It's a Trip (Go for the Moon)\", \"length\": \"169333\", \"number\": \"B3\"},{\"name\": \"You Make It Feel Like Christmas\", \"length\": \"238733\", \"number\": \"B4\"},{\"name\": \"One by One\", \"length\": \"157134\", \"number\": \"B5\"}]"
-            },
-            "artist_name": {
-                "S": "Neil Diamond"
-            },
-            "price": {
-                "N": "3.69"
-            },
-            "id": {
-                "N": "109854"
-            },
-            "album_art": {
-                "S": "/albumart/4/5/8/9/0/1/109854.jpg"
-            },
-            "format": {
-                "S": "12\" Vinyl"
-            },
-            "title": {
-                "S": "Primitive"
+            "PutRequest": {
+                "Item": {
+                    "year": {
+                        "N": "1984"
+                    },
+                    "track_information": {
+                        "S": "[{\"name\": \"Turn Around\", \"length\": \"225760\", \"number\": \"A1\"},{\"name\": \"Primitive\", \"length\": \"266840\", \"number\": \"A2\"},{\"name\": \"Fire on the Tracks\", \"length\": \"187800\", \"number\": \"A3\"},{\"name\": \"Brooklyn on a Saturday Night\", \"length\": \"221426\", \"number\": \"A4\"},{\"name\": \"Sleep With Me Tonight\", \"length\": \"222506\", \"number\": \"A5\"},{\"name\": \"Crazy\", \"length\": \"221200\", \"number\": \"A6\"},{\"name\": \"My Time With You\", \"length\": \"269533\", \"number\": \"B1\"},{\"name\": \"Love's Own Song\", \"length\": \"212733\", \"number\": \"B2\"},{\"name\": \"It's a Trip (Go for the Moon)\", \"length\": \"169333\", \"number\": \"B3\"},{\"name\": \"You Make It Feel Like Christmas\", \"length\": \"238733\", \"number\": \"B4\"},{\"name\": \"One by One\", \"length\": \"157134\", \"number\": \"B5\"}]"
+                    },
+                    "artist_name": {
+                        "S": "Neil Diamond"
+                    },
+                    "price": {
+                        "N": "3.69"
+                    },
+                    "id": {
+                        "N": "109854"
+                    },
+                    "album_art": {
+                        "S": "/albumart/4/5/8/9/0/1/109854.jpg"
+                    },
+                    "format": {
+                        "S": "12\" Vinyl"
+                    },
+                    "title": {
+                        "S": "Primitive"
+                    }
+                }
             }
         },
         {
-            "year": {
-                "N": "1977"
-            },
-            "track_information": {
-                "S": "[{\"name\": \"God Only Knows\", \"length\": \"240426\", \"number\": \"A1\"},{\"name\": \"Let Me Take You in My Arms Again\", \"length\": \"179773\", \"number\": \"A2\"},{\"name\": \"Once in a While\", \"length\": \"220800\", \"number\": \"A3\"},{\"name\": \"Let the Little Boy Sing\", \"length\": \"209360\", \"number\": \"A4\"},{\"name\": \"I’m Glad You’re Here With Me Tonight\", \"length\": \"260266\", \"number\": \"A5\"},{\"name\": \"Lament in D Minor\", \"length\": \"70000\", \"number\": \"B1\"},{\"name\": \"Desiree\", \"length\": \"199893\", \"number\": \"B3\"},{\"name\": \"As If\", \"length\": \"209040\", \"number\": \"B4\"},{\"name\": \"You Don’t Bring Me Flowers\", \"length\": \"191466\", \"number\": \"B5\"},{\"name\": \"Free Man in Paris\", \"length\": \"282200\", \"number\": \"B6\"},{\"name\": \"Dance of the Sabres\", \"length\": \"286000\", \"number\": \"B2\"}]"
-            },
-            "artist_name": {
-                "S": "Neil Diamond"
-            },
-            "price": {
-                "N": "15.07"
-            },
-            "id": {
-                "N": "109935"
-            },
-            "album_art": {
-                "S": "/albumart/5/3/9/9/0/1/109935.jpg"
-            },
-            "format": {
-                "S": "12\" Vinyl"
-            },
-            "title": {
-                "S": "I'm Glad You're Here With Me Tonight"
+            "PutRequest": {
+                "Item": {
+                    "year": {
+                        "N": "1977"
+                    },
+                    "track_information": {
+                        "S": "[{\"name\": \"God Only Knows\", \"length\": \"240426\", \"number\": \"A1\"},{\"name\": \"Let Me Take You in My Arms Again\", \"length\": \"179773\", \"number\": \"A2\"},{\"name\": \"Once in a While\", \"length\": \"220800\", \"number\": \"A3\"},{\"name\": \"Let the Little Boy Sing\", \"length\": \"209360\", \"number\": \"A4\"},{\"name\": \"I’m Glad You’re Here With Me Tonight\", \"length\": \"260266\", \"number\": \"A5\"},{\"name\": \"Lament in D Minor\", \"length\": \"70000\", \"number\": \"B1\"},{\"name\": \"Desiree\", \"length\": \"199893\", \"number\": \"B3\"},{\"name\": \"As If\", \"length\": \"209040\", \"number\": \"B4\"},{\"name\": \"You Don’t Bring Me Flowers\", \"length\": \"191466\", \"number\": \"B5\"},{\"name\": \"Free Man in Paris\", \"length\": \"282200\", \"number\": \"B6\"},{\"name\": \"Dance of the Sabres\", \"length\": \"286000\", \"number\": \"B2\"}]"
+                    },
+                    "artist_name": {
+                        "S": "Neil Diamond"
+                    },
+                    "price": {
+                        "N": "15.07"
+                    },
+                    "id": {
+                        "N": "109935"
+                    },
+                    "album_art": {
+                        "S": "/albumart/5/3/9/9/0/1/109935.jpg"
+                    },
+                    "format": {
+                        "S": "12\" Vinyl"
+                    },
+                    "title": {
+                        "S": "I'm Glad You're Here With Me Tonight"
+                    }
+                }
             }
         },
         {
-            "year": {
-                "N": "1967"
-            },
-            "track_information": {
-                "S": "[{\"name\": \"Girl, You’ll Be a Woman Soon\", \"length\": \"168000\", \"number\": \"A1\"},{\"name\": \"Long Way Home\", \"length\": \"149000\", \"number\": \"A2\"},{\"name\": \"Red, Red Wine\", \"length\": \"162000\", \"number\": \"A3\"},{\"name\": \"You’ll Forget\", \"length\": \"170000\", \"number\": \"A4\"},{\"name\": \"The Boat That I Row\", \"length\": \"160000\", \"number\": \"A5\"},{\"name\": \"Cherry, Cherry\", \"length\": \"147000\", \"number\": \"A6\"},{\"name\": \"I’m a Believer\", \"length\": \"163000\", \"number\": \"B1\"},{\"name\": \"Shilo\", \"length\": \"203000\", \"number\": \"B2\"},{\"name\": \"You Got to Me\", \"length\": \"165000\", \"number\": \"B3\"},{\"name\": \"Solitary Man\", \"length\": \"153000\", \"number\": \"B4\"},{\"name\": \"Thank the Lord for the Night Time\", \"length\": \"175000\", \"number\": \"B5\"}]"
-            },
-            "artist_name": {
-                "S": "Neil Diamond"
-            },
-            "price": {
-                "N": "27.79"
-            },
-            "id": {
-                "N": "110353"
-            },
-            "album_art": {
-                "S": "/albumart/3/5/3/0/1/1/110353.jpg"
-            },
-            "format": {
-                "S": "12\" Vinyl"
-            },
-            "title": {
-                "S": "Just for You"
+            "PutRequest": {
+                "Item": {
+                    "year": {
+                        "N": "1967"
+                    },
+                    "track_information": {
+                        "S": "[{\"name\": \"Girl, You’ll Be a Woman Soon\", \"length\": \"168000\", \"number\": \"A1\"},{\"name\": \"Long Way Home\", \"length\": \"149000\", \"number\": \"A2\"},{\"name\": \"Red, Red Wine\", \"length\": \"162000\", \"number\": \"A3\"},{\"name\": \"You’ll Forget\", \"length\": \"170000\", \"number\": \"A4\"},{\"name\": \"The Boat That I Row\", \"length\": \"160000\", \"number\": \"A5\"},{\"name\": \"Cherry, Cherry\", \"length\": \"147000\", \"number\": \"A6\"},{\"name\": \"I’m a Believer\", \"length\": \"163000\", \"number\": \"B1\"},{\"name\": \"Shilo\", \"length\": \"203000\", \"number\": \"B2\"},{\"name\": \"You Got to Me\", \"length\": \"165000\", \"number\": \"B3\"},{\"name\": \"Solitary Man\", \"length\": \"153000\", \"number\": \"B4\"},{\"name\": \"Thank the Lord for the Night Time\", \"length\": \"175000\", \"number\": \"B5\"}]"
+                    },
+                    "artist_name": {
+                        "S": "Neil Diamond"
+                    },
+                    "price": {
+                        "N": "27.79"
+                    },
+                    "id": {
+                        "N": "110353"
+                    },
+                    "album_art": {
+                        "S": "/albumart/3/5/3/0/1/1/110353.jpg"
+                    },
+                    "format": {
+                        "S": "12\" Vinyl"
+                    },
+                    "title": {
+                        "S": "Just for You"
+                    }
+                }
             }
         },
         {
-            "year": {
-                "N": "1971"
-            },
-            "track_information": {
-                "S": "[{\"name\": \"I Am… I Said\", \"length\": \"215733\", \"number\": \"A1\"},{\"name\": \"The Last Thing on My Mind\", \"length\": \"215360\", \"number\": \"A2\"},{\"name\": \"Husbands and Wives\", \"length\": \"227133\", \"number\": \"A3\"},{\"name\": \"Chelsea Morning\", \"length\": \"158733\", \"number\": \"A4\"},{\"name\": \"Crunchy Granola Suite\", \"length\": \"176106\", \"number\": \"A5\"},{\"name\": \"Stones\", \"length\": \"186026\", \"number\": \"B1\"},{\"name\": \"If You Go Away\", \"length\": \"230106\", \"number\": \"B2\"},{\"name\": \"Suzanne\", \"length\": \"281493\", \"number\": \"B3\"},{\"name\": \"I Think It’s Gonna Rain Today\", \"length\": \"155733\", \"number\": \"B4\"},{\"name\": \"I Am… I Said (reprise)\", \"length\": \"151733\", \"number\": \"B5\"}]"
-            },
-            "artist_name": {
-                "S": "Neil Diamond"
-            },
-            "price": {
-                "N": "21.92"
-            },
-            "id": {
-                "N": "110362"
-            },
-            "album_art": {
-                "S": "/albumart/2/6/3/0/1/1/110362.jpg"
-            },
-            "format": {
-                "S": "12\" Vinyl"
-            },
-            "title": {
-                "S": "Stones"
+            "PutRequest": {
+                "Item": {
+                    "year": {
+                        "N": "1971"
+                    },
+                    "track_information": {
+                        "S": "[{\"name\": \"I Am… I Said\", \"length\": \"215733\", \"number\": \"A1\"},{\"name\": \"The Last Thing on My Mind\", \"length\": \"215360\", \"number\": \"A2\"},{\"name\": \"Husbands and Wives\", \"length\": \"227133\", \"number\": \"A3\"},{\"name\": \"Chelsea Morning\", \"length\": \"158733\", \"number\": \"A4\"},{\"name\": \"Crunchy Granola Suite\", \"length\": \"176106\", \"number\": \"A5\"},{\"name\": \"Stones\", \"length\": \"186026\", \"number\": \"B1\"},{\"name\": \"If You Go Away\", \"length\": \"230106\", \"number\": \"B2\"},{\"name\": \"Suzanne\", \"length\": \"281493\", \"number\": \"B3\"},{\"name\": \"I Think It’s Gonna Rain Today\", \"length\": \"155733\", \"number\": \"B4\"},{\"name\": \"I Am… I Said (reprise)\", \"length\": \"151733\", \"number\": \"B5\"}]"
+                    },
+                    "artist_name": {
+                        "S": "Neil Diamond"
+                    },
+                    "price": {
+                        "N": "21.92"
+                    },
+                    "id": {
+                        "N": "110362"
+                    },
+                    "album_art": {
+                        "S": "/albumart/2/6/3/0/1/1/110362.jpg"
+                    },
+                    "format": {
+                        "S": "12\" Vinyl"
+                    },
+                    "title": {
+                        "S": "Stones"
+                    }
+                }
             }
         },
         {
-            "year": {
-                "N": "1972"
-            },
-            "track_information": {
-                "S": "[{\"name\": \"Play Me\", \"length\": \"286040\", \"number\": \"C1\"},{\"name\": \"Canta Libre\", \"length\": \"327426\", \"number\": \"C2\"},{\"name\": \"Morningside\", \"length\": \"335666\", \"number\": \"C3\"},{\"name\": \"Song Sung Blue\", \"length\": \"290733\", \"number\": \"C4\"},{\"name\": \"Cracklin' Rosie\", \"length\": \"173000\", \"number\": \"C5\"},{\"name\": \"Holly Holy\", \"length\": \"387600\", \"number\": \"D1\"},{\"name\": \"I Am ... I Said\", \"length\": \"371106\", \"number\": \"D2\"},{\"name\": \"Walk Off / Soolaimon / Brother Love's Traveling Salvation Show / Encore\", \"length\": \"577066\", \"number\": \"D3\"},{\"name\": \"Prologue / Crunchy Granola Suite\", \"length\": \"455426\", \"number\": \"A1\"},{\"name\": \"Done Too Soon / [dialogue]\", \"length\": \"285906\", \"number\": \"A2\"},{\"name\": \"Solitary Man\", \"length\": \"194200\", \"number\": \"A3\"},{\"name\": \"Cherry, Cherry\", \"length\": \"283200\", \"number\": \"A4\"},{\"name\": \"Sweet Caroline\", \"length\": \"255933\", \"number\": \"A5\"},{\"name\": \"Porcupine Pie\", \"length\": \"117266\", \"number\": \"B1\"},{\"name\": \"You're So Sweet\", \"length\": \"137866\", \"number\": \"B2\"},{\"name\": \"Red, Red Wine\", \"length\": \"235360\", \"number\": \"B3\"},{\"name\": \"Soggy Pretzels\", \"length\": \"205306\", \"number\": \"B4\"},{\"name\": \"And the Grass Won't Pay No Mind\", \"length\": \"279666\", \"number\": \"B5\"},{\"name\": \"Shilo\", \"length\": \"215360\", \"number\": \"B6\"},{\"name\": \"Girl You'll Be a Woman Soon\", \"length\": \"172507\", \"number\": \"B7\"}]"
-            },
-            "artist_name": {
-                "S": "Neil Diamond"
-            },
-            "price": {
-                "N": "38.29"
-            },
-            "id": {
-                "N": "116587"
-            },
-            "album_art": {
-                "S": "/albumart/7/8/5/6/1/1/116587.jpg"
-            },
-            "format": {
-                "S": "12\" Vinyl"
-            },
-            "title": {
-                "S": "Hot August Night"
+            "PutRequest": {
+                "Item": {
+                    "year": {
+                        "N": "1972"
+                    },
+                    "track_information": {
+                        "S": "[{\"name\": \"Play Me\", \"length\": \"286040\", \"number\": \"C1\"},{\"name\": \"Canta Libre\", \"length\": \"327426\", \"number\": \"C2\"},{\"name\": \"Morningside\", \"length\": \"335666\", \"number\": \"C3\"},{\"name\": \"Song Sung Blue\", \"length\": \"290733\", \"number\": \"C4\"},{\"name\": \"Cracklin' Rosie\", \"length\": \"173000\", \"number\": \"C5\"},{\"name\": \"Holly Holy\", \"length\": \"387600\", \"number\": \"D1\"},{\"name\": \"I Am ... I Said\", \"length\": \"371106\", \"number\": \"D2\"},{\"name\": \"Walk Off / Soolaimon / Brother Love's Traveling Salvation Show / Encore\", \"length\": \"577066\", \"number\": \"D3\"},{\"name\": \"Prologue / Crunchy Granola Suite\", \"length\": \"455426\", \"number\": \"A1\"},{\"name\": \"Done Too Soon / [dialogue]\", \"length\": \"285906\", \"number\": \"A2\"},{\"name\": \"Solitary Man\", \"length\": \"194200\", \"number\": \"A3\"},{\"name\": \"Cherry, Cherry\", \"length\": \"283200\", \"number\": \"A4\"},{\"name\": \"Sweet Caroline\", \"length\": \"255933\", \"number\": \"A5\"},{\"name\": \"Porcupine Pie\", \"length\": \"117266\", \"number\": \"B1\"},{\"name\": \"You're So Sweet\", \"length\": \"137866\", \"number\": \"B2\"},{\"name\": \"Red, Red Wine\", \"length\": \"235360\", \"number\": \"B3\"},{\"name\": \"Soggy Pretzels\", \"length\": \"205306\", \"number\": \"B4\"},{\"name\": \"And the Grass Won't Pay No Mind\", \"length\": \"279666\", \"number\": \"B5\"},{\"name\": \"Shilo\", \"length\": \"215360\", \"number\": \"B6\"},{\"name\": \"Girl You'll Be a Woman Soon\", \"length\": \"172507\", \"number\": \"B7\"}]"
+                    },
+                    "artist_name": {
+                        "S": "Neil Diamond"
+                    },
+                    "price": {
+                        "N": "38.29"
+                    },
+                    "id": {
+                        "N": "116587"
+                    },
+                    "album_art": {
+                        "S": "/albumart/7/8/5/6/1/1/116587.jpg"
+                    },
+                    "format": {
+                        "S": "12\" Vinyl"
+                    },
+                    "title": {
+                        "S": "Hot August Night"
+                    }
+                }
             }
         },
         {
-            "year": {
-                "N": "1973"
-            },
-            "track_information": {
-                "S": "[{\"name\": \"Prologue\", \"length\": \"202400\", \"number\": \"A1\"},{\"name\": \"Be\", \"length\": \"394026\", \"number\": \"A2\"},{\"name\": \"Flight of the Gull\", \"length\": \"145600\", \"number\": \"A3\"},{\"name\": \"Dear Father\", \"length\": \"319333\", \"number\": \"A4\"},{\"name\": \"Skybird\", \"length\": \"74906\", \"number\": \"A5\"},{\"name\": \"Lonely Looking Sky\", \"length\": \"199400\", \"number\": \"A6\"},{\"name\": \"The Odyssey\", \"length\": \"583200\", \"number\": \"B1\"},{\"name\": \"Anthem\", \"length\": \"186826\", \"number\": \"B2\"},{\"name\": \"Be\", \"length\": \"69306\", \"number\": \"B3\"},{\"name\": \"Skybird\", \"length\": \"142093\", \"number\": \"B4\"},{\"name\": \"Dear Father\", \"length\": \"80133\", \"number\": \"B5\"},{\"name\": \"Be\", \"length\": \"215306\", \"number\": \"B6\"}]"
-            },
-            "artist_name": {
-                "S": "Neil Diamond"
-            },
-            "price": {
-                "N": "15.75"
-            },
-            "id": {
-                "N": "204889"
-            },
-            "album_art": {
-                "S": "/albumart/9/8/8/4/0/2/204889.jpg"
-            },
-            "format": {
-                "S": "12\" Vinyl"
-            },
-            "title": {
-                "S": "Jonathan Livingston Seagull"
+            "PutRequest": {
+                "Item":{
+                    "year": {
+                        "N": "1973"
+                    },
+                    "track_information": {
+                        "S": "[{\"name\": \"Prologue\", \"length\": \"202400\", \"number\": \"A1\"},{\"name\": \"Be\", \"length\": \"394026\", \"number\": \"A2\"},{\"name\": \"Flight of the Gull\", \"length\": \"145600\", \"number\": \"A3\"},{\"name\": \"Dear Father\", \"length\": \"319333\", \"number\": \"A4\"},{\"name\": \"Skybird\", \"length\": \"74906\", \"number\": \"A5\"},{\"name\": \"Lonely Looking Sky\", \"length\": \"199400\", \"number\": \"A6\"},{\"name\": \"The Odyssey\", \"length\": \"583200\", \"number\": \"B1\"},{\"name\": \"Anthem\", \"length\": \"186826\", \"number\": \"B2\"},{\"name\": \"Be\", \"length\": \"69306\", \"number\": \"B3\"},{\"name\": \"Skybird\", \"length\": \"142093\", \"number\": \"B4\"},{\"name\": \"Dear Father\", \"length\": \"80133\", \"number\": \"B5\"},{\"name\": \"Be\", \"length\": \"215306\", \"number\": \"B6\"}]"
+                    },
+                    "artist_name": {
+                        "S": "Neil Diamond"
+                    },
+                    "price": {
+                        "N": "15.75"
+                    },
+                    "id": {
+                        "N": "204889"
+                    },
+                    "album_art": {
+                        "S": "/albumart/9/8/8/4/0/2/204889.jpg"
+                    },
+                    "format": {
+                        "S": "12\" Vinyl"
+                    },
+                    "title": {
+                        "S": "Jonathan Livingston Seagull"
+                    }
+                }
             }
         },
         {
-            "year": {
-                "N": "1977"
-            },
-            "track_information": {
-                "S": "[{\"name\": \"Streetlife\", \"length\": \"186000\", \"number\": \"A1\"},{\"name\": \"Kentucky Woman\", \"length\": \"123000\", \"number\": \"A2\"},{\"name\": \"Sweet Caroline\", \"length\": \"242000\", \"number\": \"A3\"},{\"name\": \"The Last Picasso\", \"length\": \"269000\", \"number\": \"A4\"},{\"name\": \"Longfellow Serenade\", \"length\": \"254000\", \"number\": \"A5\"},{\"name\": \"Beautiful Noise\", \"length\": \"184000\", \"number\": \"B1\"},{\"name\": \"Lady-Oh\", \"length\": \"241000\", \"number\": \"B2\"},{\"name\": \"Stargazer\", \"length\": \"148000\", \"number\": \"B3\"},{\"name\": \"If You Know What I Mean\", \"length\": \"236000\", \"number\": \"B4\"},{\"name\": \"Surviving the Life\", \"length\": \"211000\", \"number\": \"B5\"},{\"name\": \"Glory Road\", \"length\": \"210000\", \"number\": \"C1\"},{\"name\": \"Song Sung Blue\", \"length\": \"240000\", \"number\": \"C2\"},{\"name\": \"Holly Holy\", \"length\": \"270000\", \"number\": \"C3\"},{\"name\": \"Brother Love's Traveling Salvation Show\", \"length\": \"309000\", \"number\": \"C4\"},{\"name\": \"Jonathan Livingston Seagull: Be / Dear Father / Lonely Looking Sky / Sanctus / Skybird / Be (encore)\", \"length\": \"924000\", \"number\": \"D1\"},{\"name\": \"I've Been This Way Before\", \"length\": \"257000\", \"number\": \"D2\"}]"
-            },
-            "artist_name": {
-                "S": "Neil Diamond"
-            },
-            "price": {
-                "N": "26.55"
-            },
-            "id": {
-                "N": "205593"
-            },
-            "album_art": {
-                "S": "/albumart/3/9/5/5/0/2/205593.jpg"
-            },
-            "format": {
-                "S": "12\" Vinyl"
-            },
-            "title": {
-                "S": "Love at the Greek"
+            "PutRequest": {
+                "Item": {
+                    "year": {
+                        "N": "1977"
+                    },
+                    "track_information": {
+                        "S": "[{\"name\": \"Streetlife\", \"length\": \"186000\", \"number\": \"A1\"},{\"name\": \"Kentucky Woman\", \"length\": \"123000\", \"number\": \"A2\"},{\"name\": \"Sweet Caroline\", \"length\": \"242000\", \"number\": \"A3\"},{\"name\": \"The Last Picasso\", \"length\": \"269000\", \"number\": \"A4\"},{\"name\": \"Longfellow Serenade\", \"length\": \"254000\", \"number\": \"A5\"},{\"name\": \"Beautiful Noise\", \"length\": \"184000\", \"number\": \"B1\"},{\"name\": \"Lady-Oh\", \"length\": \"241000\", \"number\": \"B2\"},{\"name\": \"Stargazer\", \"length\": \"148000\", \"number\": \"B3\"},{\"name\": \"If You Know What I Mean\", \"length\": \"236000\", \"number\": \"B4\"},{\"name\": \"Surviving the Life\", \"length\": \"211000\", \"number\": \"B5\"},{\"name\": \"Glory Road\", \"length\": \"210000\", \"number\": \"C1\"},{\"name\": \"Song Sung Blue\", \"length\": \"240000\", \"number\": \"C2\"},{\"name\": \"Holly Holy\", \"length\": \"270000\", \"number\": \"C3\"},{\"name\": \"Brother Love's Traveling Salvation Show\", \"length\": \"309000\", \"number\": \"C4\"},{\"name\": \"Jonathan Livingston Seagull: Be / Dear Father / Lonely Looking Sky / Sanctus / Skybird / Be (encore)\", \"length\": \"924000\", \"number\": \"D1\"},{\"name\": \"I've Been This Way Before\", \"length\": \"257000\", \"number\": \"D2\"}]"
+                    },
+                    "artist_name": {
+                        "S": "Neil Diamond"
+                    },
+                    "price": {
+                        "N": "26.55"
+                    },
+                    "id": {
+                        "N": "205593"
+                    },
+                    "album_art": {
+                        "S": "/albumart/3/9/5/5/0/2/205593.jpg"
+                    },
+                    "format": {
+                        "S": "12\" Vinyl"
+                    },
+                    "title": {
+                        "S": "Love at the Greek"
+                    }
+                }
             }
         },
         {
-            "year": {
-                "N": "1974"
-            },
-            "track_information": {
-                "S": "[{\"name\": \"Sweet Caroline\", \"length\": \"213000\", \"number\": \"1\"},{\"name\": \"Brother Love's Travelling Salvation Show\", \"length\": \"207066\", \"number\": \"2\"},{\"name\": \"Shilo\", \"length\": \"177933\", \"number\": \"3\"},{\"name\": \"Holly Holy\", \"length\": \"280000\", \"number\": \"4\"},{\"name\": \"Brooklyn Roads\", \"length\": \"220040\", \"number\": \"5\"},{\"name\": \"Cracklin' Rosie\", \"length\": \"179266\", \"number\": \"6\"},{\"name\": \"Play Me\", \"length\": \"231360\", \"number\": \"7\"},{\"name\": \"Done Too Soon\", \"length\": \"161666\", \"number\": \"8\"},{\"name\": \"Stones\", \"length\": \"185400\", \"number\": \"9\"},{\"name\": \"Song Sung Blue\", \"length\": \"195306\", \"number\": \"10\"},{\"name\": \"Soolaimon\", \"length\": \"258266\", \"number\": \"11\"},{\"name\": \"I Am ... I Said\", \"length\": \"214693\", \"number\": \"12\"}]"
-            },
-            "artist_name": {
-                "S": "Neil Diamond"
-            },
-            "price": {
-                "N": "37.94"
-            },
-            "id": {
-                "N": "250414"
-            },
-            "album_art": {
-                "S": "/albumart/4/1/4/0/5/2/250414.jpg"
-            },
-            "format": {
-                "S": "12\" Vinyl"
-            },
-            "title": {
-                "S": "His 12 Greatest Hits"
+            "PutRequest": {
+                "Item": {
+                    "year": {
+                        "N": "1974"
+                    },
+                    "track_information": {
+                        "S": "[{\"name\": \"Sweet Caroline\", \"length\": \"213000\", \"number\": \"1\"},{\"name\": \"Brother Love's Travelling Salvation Show\", \"length\": \"207066\", \"number\": \"2\"},{\"name\": \"Shilo\", \"length\": \"177933\", \"number\": \"3\"},{\"name\": \"Holly Holy\", \"length\": \"280000\", \"number\": \"4\"},{\"name\": \"Brooklyn Roads\", \"length\": \"220040\", \"number\": \"5\"},{\"name\": \"Cracklin' Rosie\", \"length\": \"179266\", \"number\": \"6\"},{\"name\": \"Play Me\", \"length\": \"231360\", \"number\": \"7\"},{\"name\": \"Done Too Soon\", \"length\": \"161666\", \"number\": \"8\"},{\"name\": \"Stones\", \"length\": \"185400\", \"number\": \"9\"},{\"name\": \"Song Sung Blue\", \"length\": \"195306\", \"number\": \"10\"},{\"name\": \"Soolaimon\", \"length\": \"258266\", \"number\": \"11\"},{\"name\": \"I Am ... I Said\", \"length\": \"214693\", \"number\": \"12\"}]"
+                    },
+                    "artist_name": {
+                        "S": "Neil Diamond"
+                    },
+                    "price": {
+                        "N": "37.94"
+                    },
+                    "id": {
+                        "N": "250414"
+                    },
+                    "album_art": {
+                        "S": "/albumart/4/1/4/0/5/2/250414.jpg"
+                    },
+                    "format": {
+                        "S": "12\" Vinyl"
+                    },
+                    "title": {
+                        "S": "His 12 Greatest Hits"
+                    }
+                }
             }
         }
     ]
