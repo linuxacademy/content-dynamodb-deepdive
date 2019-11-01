@@ -1,0 +1,36 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "LimitAccessToSpecificAttributes",
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:GetItem",
+                "dynamodb:Query",
+                "dynamodb:BatchGetItem",
+                "dynamodb:Scan"
+            ],
+            "Resource": [
+                "arn:aws:dynamodb:us-east-1:ACCOUNTID:table/pinehead_records_s2"
+            ],
+            "Condition": {
+                "ForAllValues:StringEquals": {
+                    "dynamodb:Attributes": [
+                        "artist_name",
+                        "id",
+                        "album_art",
+                        "title"
+                    ]
+                },
+                "StringEqualsIfExists": {
+                    "dynamodb:Select": "SPECIFIC_ATTRIBUTES",
+                    "dynamodb:ReturnValues": [
+                        "NONE",
+                        "UPDATED_OLD",
+                        "UPDATED_NEW"
+                    ]
+                }
+            }
+        }
+    ]
+}
