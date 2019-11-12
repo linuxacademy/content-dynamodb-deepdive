@@ -10,7 +10,6 @@ flask-bcrypt==0.7.1
 flask-cache==0.13.1
 flask-caching==1.7.2
 flask-login==0.4.1
-flask-mysqldb==0.2.0
 flask-paginate==0.5.3
 flask-sqlalchemy==2.4.0
 flask-wtf==0.14.2
@@ -20,7 +19,6 @@ itsdangerous==1.1.0
 jinja2==2.10.1
 jmespath==0.9.4
 markupsafe==1.1.1
-mysqlclient==1.4.4
 pyasn1==0.4.6
 pycparser==2.19
 pyjwt==1.7.1

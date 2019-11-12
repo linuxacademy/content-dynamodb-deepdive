@@ -8,10 +8,10 @@ flake8 = "*"
 autopep8 = "*"
 pylint = "*"
 black = "*"
+prospector = "*"
 
 [packages]
 flask-paginate = "*"
-flask-mysqldb = "*"
 flask-login = "*"
 flask-wtf = "*"
 flask-bcrypt = "*"

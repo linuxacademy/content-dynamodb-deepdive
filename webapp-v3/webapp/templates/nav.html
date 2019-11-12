@@ -13,7 +13,7 @@
     <ul class="navbar-nav ml-auto">
       {% if current_user.is_authenticated %}
       <li class="nav-item">
-        <span class="nav-item nav-link"><i class="fas fa-user"></i> {{ current_user.nickname }}</span>
+        <a class="nav-item nav-link" href="{{ url_for('account') }}"><i class="fas fa-user"></i> {{ current_user.email }}</a>
       </li>
       <li class="nav-item">
         <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>
@@ -23,7 +23,7 @@
         <a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a>
       </li>
       <li class="nav-item">
-        <a class="nav-item nav-link" href="{{ url_for('signup') }}">Sign Up</a>
+        <a class="nav-item nav-link" href="{{ url_for('register') }}">Register</a>
       </li>
       {% endif %}
       <li class="nav-item">
