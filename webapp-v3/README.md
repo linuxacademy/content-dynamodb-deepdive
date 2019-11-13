@@ -20,12 +20,13 @@ Note that the `user` table is still separate from the `pinehead_records_s3` tabl
 
 ## Indexes
 
-| Type | Name                  | Partition Key       | Sort Key      | Attributes |
-| -----|-----------------------|---------------------|---------------|----------- |
-| LSI  | type-name_title-index | type (String)       | name_title    | ALL        |
-| GSI  | name_title-index      | name_title (String) | -             | ALL        |
-| GSI  | artist_id-type-index  | artist_id (Number)  | type (String) | ALL        |
-
+| Type | Name                  | Partition Key       | Sort Key          | Attributes |
+| -----|-----------------------|---------------------|-------------------|----------- |
+| LSI  | type-name_title-index | type (String)       | name_title        | ALL        |
+| GSI  | name_title-index      | name_title (String) | -                 | ALL        |
+| GSI  | artist_id-type-index  | artist_id (Number)  | type (String)     | ALL        |
+| GSI  | type-album_id-index   | type (String)       | album_id (Number) | ALL        |
+ 
 ## Setup
 
 ### Album Art S3 Bucket
