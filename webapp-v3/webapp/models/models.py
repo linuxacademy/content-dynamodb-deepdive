@@ -4,7 +4,11 @@ import os
 from dataclasses import dataclass, field
 from typing import List
 
+import boto3
+from boto3.dynamodb.conditions import Key
 from flask_login import UserMixin
+
+user_table = boto3.resource("dynamodb").Table("user")
 
 
 @dataclass
@@ -46,6 +50,48 @@ class Artist:
 
 
 class User(UserMixin):
-    """Standard flask_login UserMixin"""
+    def __init__(self, email, password):
+        self._email = email
+        self._password = password
 
-    pass
+    @property
+    def id(self):
+        return self._email
+
+    @property
+    def email(self):
+        return self._email
+
+    @property
+    def password(self):
+        return self._password
+
+    @staticmethod
+    def get_user(email):
+        print("email", email)
+        response = user_table.query(KeyConditionExpression=Key("email").eq(email))
+        items = response.get("Items")
+
+        if items is None:
+            return None
+
+        if not items:
+            return None
+
+        u = User(items[0]["email"], items[0]["password"])
+        return u
+
+    def __repr__(self):
+        return f"User('{self._email}')"
+
+    def add(self):
+        """saves a new record to DynamoDB"""
+        user_table.put_item(Item={"email": self.email, "password": self.password})
+
+    def update(self):
+        """updates an existing record in DynamoDB"""
+        user_table.update_item(
+            Key={"email": self.email},
+            UpdateExpression="SET password=:password",
+            ExpressionAttributeValues={":password": self.password},
+        )
