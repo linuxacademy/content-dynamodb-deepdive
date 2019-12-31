@@ -7,7 +7,6 @@ verify_ssl = true
 
 [packages]
 flask-paginate = "*"
-flask-mysqldb = "*"
 flask-login = "*"
 flask-wtf = "*"
 flask-bcrypt = "*"
