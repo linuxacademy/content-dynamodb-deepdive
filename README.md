@@ -14,7 +14,7 @@
 
 ### [webapp-v1](./webapp-v1) - Fundamental DynamoDB
 
-- Naïve migration from MySQL to DynamoDB
+- Naïve migration from CSV to DynamoDB
 - 3 DDB tables mimicking the relational structure
 - images are moved to S3 with URI in DDB attribute
 - no indexes
