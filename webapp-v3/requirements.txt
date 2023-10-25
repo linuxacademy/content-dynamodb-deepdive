@@ -19,7 +19,7 @@ markupsafe==1.1.1
 pycparser==2.19
 pyopenssl==19.0.0
 python-dotenv==0.10.3
-requests==2.22.0
+requests==2.31.0
 six==1.13.0
 urllib3==1.25.7
 werkzeug==0.16.0
